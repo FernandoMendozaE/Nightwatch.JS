@@ -1,0 +1,6 @@
+node_modules
+tests_output
+*.log
+.env
+vrt/diff
+vrt/latest
