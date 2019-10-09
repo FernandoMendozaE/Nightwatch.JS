@@ -12,6 +12,10 @@ module.exports = {
 
     const submitButtonSelector = '.jfk-button[type="submit"]';
 
+    const resultsPageQuerySelector = `#searchform input[name="q"][value="${mainQuery}"]`;
+    const resultsPageLanguageSelector = '[aria-label="Buscar solo páginas en italiano"]';
+    const resultsPageUpdateSelector = '[aria-label=" Último mes"]';
+
     browser
       .url('https://www.google.com/advanced_search')
       .setValue(mainQueryInputSelector, mainQuery)
@@ -23,7 +27,10 @@ module.exports = {
       .assert.urlContains('as_q=Elon+Musk', 'Params: Query is Elon Musk')
       .assert.urlContains('lr=lang_it', 'Params: Languaje is Italian')
       .assert.urlContains('as_qdr=m', 'Params: Time period is last month')
-    // browser.expect.element(resultsPageQuerySelector).to.be.visible;
-    browser.saveScreenshot('tests_output/google.png')
+
+    browser.saveScreenshot('tests_output/google.pngc ');
+    browser.assert.visible(resultsPageQuerySelector, 'UI: Elon Musk is set in the query input');
+    // // browser.assert.containsText(resultsPageLanguageSelector, 'Buscar solo páginas en italiano', 'UI: Language is set to Itilian');
+    browser.assert.containsText(resultsPageUpdateSelector, 'Último mes', 'UI: Last update is set to Month');
   }
 }
