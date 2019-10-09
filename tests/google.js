@@ -20,6 +20,10 @@ module.exports = {
       .click(lastUpdateDropdownOpenerSelector)
       .click(lastUpdateDropdownValuesSelector)
       .click(submitButtonSelector)
-      .saveScreenshot('tests_output/google.png')
+      .assert.urlContains('as_q=Elon+Musk', 'Params: Query is Elon Musk')
+      .assert.urlContains('lr=lang_it', 'Params: Languaje is Italian')
+      .assert.urlContains('as_qdr=m', 'Params: Time period is last month')
+    // browser.expect.element(resultsPageQuerySelector).to.be.visible;
+    browser.saveScreenshot('tests_output/google.png')
   }
 }
