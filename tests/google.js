@@ -1,10 +1,11 @@
 module.exports = {
-  '@tags': ['google'],
-  'Google advanced search: Elon Musk'(browser) {
-    const mainQuery = 'Elon Musk';
+  "@tags": ["google"],
+  "Google advanced search: Elon Musk"(browser) {
+    // const mainQuery = 'Elon Musk';
 
-    const mainQueryInputSelector = 'input[name="as_q"]';
-    const languageDropdownOpenerSelector = 'a[href="/images/ASFI/DOCS/OPORTUNIDADES_EMPLEO/2018/Convocatoria_012018.pdf"]';
+    // const mainQueryInputSelector = 'input[name="as_q"]';
+    const languageDropdownOpenerSelector =
+      'a[href="/images/ASFI/DOCS/OPORTUNIDADES_EMPLEO/2018/Convocatoria_012018.pdf"]';
     // const languageDropdownValuesSelector = '.goog-menuitem[value="lang_it"]';
 
     // const lastUpdateDropdownOpenerSelector = '#as_qdr_button';
@@ -16,7 +17,9 @@ module.exports = {
     // const resultsPageLanguageSelector = '[aria-label="Buscar solo páginas en italiano"]';
     // const resultsPageUpdateSelector = '[aria-label=" Último mes"]';
 
-    browser.url('https://www.asfi.gob.bo/index.php/transparencia/convocatorias-personal.html')
+    browser.url(
+      "https://apps.who.int/iris/bitstream/handle/10665/137592/roadmapsitrep_7Nov2014_eng.pdf;jsessionid=35ABBBEEE3E84E40A15AA4D398A06F2A?sequence=1"
+    );
     // .setValue(mainQueryInputSelector, mainQuery)
     // .click(languageDropdownOpenerSelector)
     // .click(languageDropdownValuesSelector)
@@ -27,9 +30,11 @@ module.exports = {
     // .assert.urlContains('lr=lang_it', 'Params: Languaje is Italian')
     // .assert.urlContains('as_qdr=m', 'Params: Time period is last month')
 
-    browser.saveScreenshot('tests_output/google.png ');
+    browser.saveScreenshot("tests_output/asfi.png");
+    // browser.expect.url().to.contain('https://', 'Pagina');
+    browser.end();
     // browser.assert.visible(resultsPageQuerySelector, 'UI: Elon Musk is set in the query input');
     // // browser.assert.containsText(resultsPageLanguageSelector, 'Buscar solo páginas en italiano', 'UI: Language is set to Itilian');
     // browser.assert.containsText(resultsPageUpdateSelector, 'Último mes', 'UI: Last update is set to Month');
   }
-}
+};
