@@ -1,11 +1,12 @@
+var download = require("download-pdf");
+
 module.exports = {
   "@tags": ["google"],
   "Google advanced search: Elon Musk"(browser) {
     // const mainQuery = 'Elon Musk';
 
     // const mainQueryInputSelector = 'input[name="as_q"]';
-    const languageDropdownOpenerSelector =
-      'a[href="/images/ASFI/DOCS/OPORTUNIDADES_EMPLEO/2018/Convocatoria_012018.pdf"]';
+    const languageDropdownOpenerSelector = 'a[href="/images/ASFI/DOCS/OPORTUNIDADES_EMPLEO/2018/Convocatoria_012018.pdf"]';
     // const languageDropdownValuesSelector = '.goog-menuitem[value="lang_it"]';
 
     // const lastUpdateDropdownOpenerSelector = '#as_qdr_button';
@@ -29,6 +30,19 @@ module.exports = {
     // .assert.urlContains('as_q=Elon+Musk', 'Params: Query is Elon Musk')
     // .assert.urlContains('lr=lang_it', 'Params: Languaje is Italian')
     // .assert.urlContains('as_qdr=m', 'Params: Time period is last month')
+
+    var pdf = "https://www.asfi.gob.bo/images/ASFI/DOCS/OPORTUNIDADES_EMPLEO/2018/Requerimiento_de_personal_02-2018.pdf";
+
+    var options = {
+      directory: "./pdfs/ebola/",
+      filename: "2014-11-16.pdf"
+    };
+
+    download(pdf, options, function (err) {
+      if (err) throw err;
+      console.log("meow");
+    });
+
 
     browser.saveScreenshot("tests_output/asfi.png");
     // browser.expect.url().to.contain('https://', 'Pagina');
