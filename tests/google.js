@@ -1,3 +1,5 @@
+var download = require("download-pdf");
+
 module.exports = {
   '@tags': ['google'],
   'Google advanced search: Elon Musk'(browser) {
@@ -31,9 +33,22 @@ module.exports = {
       // .assert.urlContains('as_qdr=m', 'Params: Time period is last month')
       .click(submitButtonEnlace)
 
+    var pdf = "https://www.asfi.gob.bo/images/ASFI/DOCS/OPORTUNIDADES_EMPLEO/2018/Requerimiento_de_personal_02-2018.pdf";
+
+    var options = {
+      directory: "./pdfs/ebola/",
+      filename: "2014-11-17.pdf"
+    };
+
+    download(pdf, options, function (err) {
+      if (err) throw err;
+      console.log("meow");
+    });
+
+
     browser.saveScreenshot('tests_output/google.png');
     // browser.assert.visible(resultsPageQuerySelector, 'UI: Elon Musk is set in the query input');
     // // browser.assert.containsText(resultsPageLanguageSelector, 'Buscar solo páginas en italiano', 'UI: Language is set to Itilian');
     // browser.assert.containsText(resultsPageUpdateSelector, 'Último mes', 'UI: Last update is set to Month');
   }
-}
+};
