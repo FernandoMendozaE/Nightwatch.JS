@@ -5,10 +5,10 @@ var pdf =
 
 var options = {
   directory: "./pdfs/ebola/",
-  filename: "2014-11-14.pdf"
+  filename: "2014-11-20.pdf"
 };
 
-download(pdf, options, function(err) {
+download(pdf, options, function (err) {
   if (err) throw err;
   console.log("meow");
 });

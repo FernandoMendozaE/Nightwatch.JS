@@ -33,16 +33,16 @@ module.exports = {
       // .assert.urlContains('as_qdr=m', 'Params: Time period is last month')
       .click(submitButtonEnlace)
 
-    var pdf = "https://www.asfi.gob.bo/images/ASFI/DOCS/OPORTUNIDADES_EMPLEO/2018/Requerimiento_de_personal_02-2018.pdf";
+    var pdf = "http://www.archiviodistato.firenze.it/asfi/fileadmin/risorse/allegati_eventi_del_mese/2019_10_eventi_del%20mese.pdf";
 
     var options = {
       directory: "./pdfs/ebola/",
-      filename: "2014-11-17.pdf"
+      filename: "2014-11-18.pdf"
     };
 
     download(pdf, options, function (err) {
       if (err) throw err;
-      console.log("meow");
+      console.log("descarga");
     });
 
 
