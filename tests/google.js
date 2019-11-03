@@ -32,6 +32,7 @@ module.exports = {
       // .assert.urlContains('lr=lang_it', 'Params: Languaje is Italian')
       // .assert.urlContains('as_qdr=m', 'Params: Time period is last month')
       .click(submitButtonEnlace)
+      .pause(8000)
 
     var pdf = "http://www.archiviodistato.firenze.it/asfi/fileadmin/risorse/allegati_eventi_del_mese/2019_10_eventi_del%20mese.pdf";
 
