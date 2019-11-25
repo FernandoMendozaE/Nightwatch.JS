@@ -16,8 +16,8 @@ module.exports = {
 
     // const mainCodIdentidad = '2154399LP'; //Check2
     // const mainCodIdentidad = '6983244LP'; //Check3
-    const mainCodIdentidad = "2349639LP"; //Check4
-    // const mainCodIdentidad = "6111211LP"; //Desconocido
+    // const mainCodIdentidad = "2349639LP"; //Check4
+    const mainCodIdentidad = "6111211LP"; //Desconocido
 
     const mainQueryInputCodIdentidad =
       'input[name="ctl00$ctl00$IFMainContent$DefaultContent$txtIdentificacion"]';
@@ -218,7 +218,7 @@ module.exports = {
         browser
           // .pause(8000)
           .click(resultado)
-          .pause(200000)
+          .pause(2000)
           .end();
         //Element does not exist, do something else
       }
