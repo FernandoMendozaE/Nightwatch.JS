@@ -109,7 +109,7 @@ module.exports = {
             });
           } else {
             browser
-              .pause(1000)
+              .pause(20000)
               .click(checkOp1)
               .pause(1000)
               .click(consultaCheck)
