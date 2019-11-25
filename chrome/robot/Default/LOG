@@ -1,0 +1,5 @@
+2019/11/25-09:31:05.115 41dc Recovering log #8
+2019/11/25-09:31:05.115 41dc Level-0 table #10: started
+2019/11/25-09:31:05.120 41dc Level-0 table #10: 1003 bytes OK
+2019/11/25-09:31:05.133 41dc Delete type=0 #8
+2019/11/25-09:31:05.133 41dc Delete type=3 #6

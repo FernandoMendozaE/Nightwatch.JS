@@ -2,7 +2,7 @@ module.exports = {
   '@tags': ['impuestos'],
   'Google advanced search: Reporte Impuestos Nacionales'(browser) {
 
-    // const clickPdf = 'a[href="/pdf/ACTA-RENDICION-DE-CUENTAS-FINAL-2014.pdf"]';
+    const clickPdf = 'a[href="/images/ASFI/DOCS/OPORTUNIDADES_EMPLEO/2018/Convocatoria_012018.pdf"]';
 
     const table = '.item-page > div > table > tbody > tr > td';
     // const mainQuery = 'Elon Musk';
@@ -14,7 +14,7 @@ module.exports = {
 
     browser
       .url('https://www.asfi.gob.bo/index.php/transparencia/convocatorias-personal.html')
-      // .click(clickPdf) // Excel
+      .click(clickPdf) // Excel
 
       .getText(table, function (result) {
         console.log('object', result)
