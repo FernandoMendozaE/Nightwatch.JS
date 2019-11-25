@@ -12,11 +12,11 @@ module.exports = {
 
     // const mainCodIdentidad = "2487231LP"; //SinCheck
     // const mainCodIdentidad = "25856301DLP"; //Check1 Correcto
-    const mainCodIdentidad = "2585630LP"; //Check1
+    // const mainCodIdentidad = "2585630LP"; //Check1
 
     // const mainCodIdentidad = '2154399LP'; //Check2
     // const mainCodIdentidad = '6983244LP'; //Check3
-    // const mainCodIdentidad = '2349639LP'; //Check4
+    const mainCodIdentidad = "2349639LP"; //Check4
     // const mainCodIdentidad = "6111211LP"; //Desconocido
 
     const mainQueryInputCodIdentidad =
@@ -37,8 +37,14 @@ module.exports = {
 
     const checkOp3 =
       '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow2 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn2"]';
+    const ci_checkOp3 =
+      "#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow2 >td:nth-child(4)";
+
     const checkOp4 =
       '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow3 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn3"]';
+
+    const ci_checkOp4 =
+      "#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow3 >td:nth-child(4)";
 
     // button
     const consultaCheck =
@@ -67,70 +73,143 @@ module.exports = {
               if (result.status != -1) {
                 browser.element("css selector", checkOp4, function(result) {
                   if (result.status != -1) {
+                    browser.pause(2000).getText(ci_checkOp1, function(result) {
+                      console.log("object", result.value);
+                      if (result.value === mainCodIdentidad) {
+                        console.log("Correcto!");
+                        browser.click(checkOp1).pause(1000);
+                      } else {
+                        console.log("Incorrecto!");
+                      }
+                    });
+                    browser.pause(2000).getText(ci_checkOp2, function(result) {
+                      console.log("object", result.value);
+                      if (result.value === mainCodIdentidad) {
+                        console.log("Correcto!");
+                        browser.click(checkOp2).pause(1000);
+                      } else {
+                        console.log("Incorrecto!");
+                      }
+                    });
+                    browser.pause(2000).getText(ci_checkOp3, function(result) {
+                      console.log("object", result.value);
+                      if (result.value === mainCodIdentidad) {
+                        console.log("Correcto!");
+                        browser.click(checkOp3).pause(1000);
+                      } else {
+                        console.log("Incorrecto!");
+                      }
+                    });
+                    browser.pause(2000).getText(ci_checkOp4, function(result) {
+                      console.log("object", result.value);
+                      if (result.value === mainCodIdentidad) {
+                        console.log("Correcto!");
+                        browser.click(checkOp4);
+                      } else {
+                        console.log("Incorrecto!");
+                      }
+                    });
                     browser
-                      .pause(200000)
-                      // .click(checkOp1)
-                      // .pause(1000)
-                      // .click(checkOp2)
-                      // .pause(1000)
-                      // .click(checkOp3)
-                      // .pause(1000)
-                      // .click(checkOp4)
-                      // .pause(1000)
-                      // .click(consultaCheck)
-                      // .pause(2000)
-                      // .click(resultado)
-                      // .pause(18000)
+                      .pause(1000)
+                      .click(consultaCheck)
+                      .pause(8000)
+                      .click(resultado)
+                      .pause(8000)
+
                       .end();
                     //Element exists, do something
                   } else {
+                    browser.pause(2000).getText(ci_checkOp1, function(result) {
+                      console.log("object", result.value);
+                      if (result.value === mainCodIdentidad) {
+                        console.log("Correcto!");
+                        browser.click(checkOp1).pause(1000);
+                      } else {
+                        console.log("Incorrecto!");
+                      }
+                    });
+                    browser.pause(2000).getText(ci_checkOp2, function(result) {
+                      console.log("object", result.value);
+                      if (result.value === mainCodIdentidad) {
+                        console.log("Correcto!");
+                        browser.click(checkOp2).pause(1000);
+                      } else {
+                        console.log("Incorrecto!");
+                      }
+                    });
+                    browser.pause(2000).getText(ci_checkOp3, function(result) {
+                      console.log("object", result.value);
+                      if (result.value === mainCodIdentidad) {
+                        console.log("Correcto!");
+                        browser.click(checkOp3);
+                      } else {
+                        console.log("Incorrecto!");
+                      }
+                    });
                     browser
-                      .pause(2000)
-                      .click(checkOp1)
-                      .pause(1000)
-                      .click(checkOp2)
-                      .pause(1000)
-                      .click(checkOp3)
                       .pause(1000)
                       .click(consultaCheck)
-                      .pause(2000)
+                      .pause(8000)
                       .click(resultado)
-                      .pause(200000)
+                      .pause(8000)
+
                       .end();
                     //Element does not exist, do something else
                   }
                 });
               } else {
+                browser.pause(2000).getText(ci_checkOp1, function(result) {
+                  console.log("object", result.value);
+                  if (result.value === mainCodIdentidad) {
+                    console.log("Correcto!");
+                    browser.click(checkOp1).pause(1000);
+                  } else {
+                    console.log("Incorrecto!");
+                  }
+                });
+                browser.pause(2000).getText(ci_checkOp2, function(result) {
+                  console.log("object", result.value);
+                  if (result.value === mainCodIdentidad) {
+                    console.log("Correcto!");
+                    browser.click(checkOp2);
+                  } else {
+                    console.log("Incorrecto!");
+                  }
+                });
                 browser
                   .pause(1000)
-                  .click(checkOp1)
-                  .pause(1000)
-                  .click(checkOp2)
-                  .pause(1000)
                   .click(consultaCheck)
-                  .pause(1000)
+                  .pause(8000)
                   .click(resultado)
-                  .pause(200000)
+                  .pause(8000)
+
                   .end();
                 //Element does not exist, do something else
               }
             });
           } else {
-            browser.pause(20000);
-            let sw = esCI(ci_checkOp1, mainCodIdentidad);
-            if (sw) {
-              browser
-                .click(checkOp1)
-                .pause(1000)
-                .click(consultaCheck)
-                .pause(1000)
-                .click(resultado)
-                .pause(200000)
-                .end();
-            } else {
-              console.log("Incoreccto IF!!!");
-              browser.end();
-            }
+            browser.pause(20000).getText(ci_checkOp1, function(result) {
+              console.log("object", result.value);
+              if (result.value === mainCodIdentidad) {
+                console.log("Correcto!");
+                browser
+                  .click(checkOp1)
+                  .pause(1000)
+                  .click(consultaCheck)
+                  .pause(1000)
+                  .click(resultado)
+                  .pause(2000)
+                  .end();
+              } else {
+                console.log("Incorrecto!");
+                browser
+                  .click(consultaCheck)
+                  .pause(1000)
+                  .click(resultado)
+                  .pause(2000)
+                  .end();
+              }
+            });
             //Element does not exist, do something else
           }
         });
@@ -139,24 +218,10 @@ module.exports = {
         browser
           // .pause(8000)
           .click(resultado)
-          // .pause(200000)
+          .pause(200000)
           .end();
         //Element does not exist, do something else
       }
     });
   }
 };
-
-function esCI(ci_checkOp1 = "", ci = "") {
-  "CIC advanced search: Reporte"(browser) { }
-  browser.getText(ci_checkOp1, function(result) {
-    console.log("object", result.value);
-    if (result.value === ci) {
-      console.log("Correcto!");
-      return true;
-    } else {
-      console.log("Incorrecto!");
-      return false;
-    }
-  });
-}
