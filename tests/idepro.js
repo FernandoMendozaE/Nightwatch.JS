@@ -10,8 +10,10 @@ module.exports = {
     const submitButtonSelector = '.btnAceptar[type="submit"]';
     const submitButtonConsultaCod = 'a[href="ConsultasDefault.aspx?opPag=1"]';
 
-    const mainCodIdentidad = '2487231LP'; //SinCheck
-    // const mainCodIdentidad = '2585630LP'; //Check1
+    // const mainCodIdentidad = "2487231LP"; //SinCheck
+    // const mainCodIdentidad = "25856301DLP"; //Check1 Correcto
+    const mainCodIdentidad = "2585630LP"; //Check1
+
     // const mainCodIdentidad = '2154399LP'; //Check2
     // const mainCodIdentidad = '6983244LP'; //Check3
     // const mainCodIdentidad = '2349639LP'; //Check4
@@ -25,8 +27,14 @@ module.exports = {
     // Clicks
     const checkOp1 =
       '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow0 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn0"]';
+    const ci_checkOp1 =
+      "#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow0 >td:nth-child(4)";
+
     const checkOp2 =
       '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow1 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn1"]';
+    const ci_checkOp2 =
+      "#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow1 >td:nth-child(4)";
+
     const checkOp3 =
       '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow2 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn2"]';
     const checkOp4 =
@@ -108,15 +116,21 @@ module.exports = {
               }
             });
           } else {
-            browser
-              .pause(20000)
-              .click(checkOp1)
-              .pause(1000)
-              .click(consultaCheck)
-              .pause(1000)
-              .click(resultado)
-              .pause(200000)
-              .end();
+            browser.pause(20000);
+            let sw = esCI(ci_checkOp1, mainCodIdentidad);
+            if (sw) {
+              browser
+                .click(checkOp1)
+                .pause(1000)
+                .click(consultaCheck)
+                .pause(1000)
+                .click(resultado)
+                .pause(200000)
+                .end();
+            } else {
+              console.log("Incoreccto IF!!!");
+              browser.end();
+            }
             //Element does not exist, do something else
           }
         });
@@ -132,3 +146,17 @@ module.exports = {
     });
   }
 };
+
+function esCI(ci_checkOp1 = "", ci = "") {
+  "CIC advanced search: Reporte"(browser) { }
+  browser.getText(ci_checkOp1, function(result) {
+    console.log("object", result.value);
+    if (result.value === ci) {
+      console.log("Correcto!");
+      return true;
+    } else {
+      console.log("Incorrecto!");
+      return false;
+    }
+  });
+}
