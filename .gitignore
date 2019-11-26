@@ -5,4 +5,4 @@ tests_output
 vrt/diff
 vrt/latest
 files
-chrome
+chrome/robot/

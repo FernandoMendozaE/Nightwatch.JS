@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2019/11/22-11:41:33.234 356c Reusing MANIFEST Session Storage/MANIFEST-000001
 2019/11/22-11:41:33.235 356c Recovering log #3
 2019/11/22-11:41:33.235 356c Reusing old log Session Storage/000003.log 
+=======
+2019/11/25-15:42:41.070 164e3 Reusing MANIFEST Session Storage/MANIFEST-000001
+2019/11/25-15:42:41.071 164e3 Recovering log #3
+2019/11/25-15:42:41.075 164e3 Reusing old log Session Storage/000003.log 
+>>>>>>> bc629c2cffdb0f3c4b5a3d1eca903781a115dc33
