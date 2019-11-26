@@ -4,4 +4,5 @@ tests_output
 .env
 vrt/diff
 vrt/latest
-
+files
+chrome
