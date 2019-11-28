@@ -14,8 +14,13 @@ app.get("/user", (req, res) => {
     username: "Cameron",
     lastname: "Howe"
   }); //responde la petición
+}); //recibe una peticion HTTP(get) y realiza algo
 
-  exec('npm --myVar=123456LP --password=654321 test -- --tag impuestos', (error, stdout, stderr) => {
+// Creación de Router
+//:id : request parms (parametro recivido mediante la url)
+app.post("/user", (req, res) => {
+  console.log(req.body);
+  exec(`npm --varCi=${req.body.ci} --varPassword=${req.body.password} test -- --tag dnsia`, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
@@ -23,12 +28,6 @@ app.get("/user", (req, res) => {
     console.log(`stdout: ${stdout}`);
     console.error(`stderr: ${stderr}`);
   });
-}); //recibe una peticion HTTP(get) y realiza algo
-
-// Creación de Router
-//:id : request parms (parametro recivido mediante la url)
-app.post("/user", (req, res) => {
-  console.log(req.body); //obtiene datos del rquest json
   // console.log(req.params); //obtiene  datos del id (url) parametros
   res.send("POST REQUEST RECEIVED"); //request post
 });
