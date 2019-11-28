@@ -12,12 +12,16 @@ module.exports = {
     // const languageDropdownOpenerSelector = '#lr_button';
 
     // const submitButtonSelector = '.jfk-button[type="submit"]';
+    let ci = process.env.npm_config_myVar;
+    console.log('ci', ci);
     console.log({ myVar: process.env.npm_config_myVar });
 
     browser
-      .url('https://www.asfi.gob.bo/index.php/transparencia/convocatorias-personal.html')
-      .click(clickPdf)
+      .url('https://www.uv.es/lonjedo/esoProblemas/unidad3ecuaciones.pdf')
+      // .url('https://www.asfi.gob.bo/index.php/transparencia/convocatorias-personal.html')
+      // .click(clickPdf)
       .pause(8000)
+      .status()
       .end(test());
 
     // function resolveRobotizacion() {
@@ -31,10 +35,12 @@ module.exports = {
     // }
 
     function test() {
-      // fs.rename('./files/Convocatoria_012018.pdf', './files/cambio.pdf', (err) => {
-      //   if (err) throw err;
-      //   console.log('Nombre Editado Satisfactoriamente');
-      // });
+      setTimeout(() => {
+        fs.rename('./files/Convocatoria_012018.pdf', './files/cambio.pdf', (err) => {
+          if (err) throw err;
+          console.log('Nombre Editado Satisfactoriamente');
+        });
+      }, 8000);
       console.log('test');
     }
 
