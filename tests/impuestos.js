@@ -13,8 +13,9 @@ module.exports = {
 
     // const submitButtonSelector = '.jfk-button[type="submit"]';
     let ci = process.env.npm_config_myVar;
-    console.log('ci', ci);
-    console.log({ myVar: process.env.npm_config_myVar });
+    let password = process.env.npm_config_password;
+    console.log('ci', ci, password);
+    // console.log({ myVar: process.env.npm_config_myVar });
 
     browser
       .url('https://www.uv.es/lonjedo/esoProblemas/unidad3ecuaciones.pdf')
@@ -35,12 +36,12 @@ module.exports = {
     // }
 
     function test() {
-      setTimeout(() => {
-        fs.rename('./files/Convocatoria_012018.pdf', './files/cambio.pdf', (err) => {
-          if (err) throw err;
-          console.log('Nombre Editado Satisfactoriamente');
-        });
-      }, 8000);
+      // setTimeout(() => {
+      //   fs.rename('./files/Convocatoria_012018.pdf', './files/cambio.pdf', (err) => {
+      //     if (err) throw err;
+      //     console.log('Nombre Editado Satisfactoriamente');
+      //   });
+      // }, 8000);
       console.log('test');
     }
 
