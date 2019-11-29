@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express(); //obtiene el objeto express
 const { exec } = require('child_process');
+const fs = require("fs");
 
 app.use(express.json()); // linea de código encargado de hacer conocer el formato JSON
 
@@ -27,7 +28,21 @@ app.post("/user", (req, res) => {
     }
     console.log(`stdout: ${stdout}`);
     console.error(`stderr: ${stderr}`);
+    fs.rename('./test_image/pdf/ejemplo_esp.pdf', './test_image/pdf/cambio.pdf', (err) => {
+      if (err) throw err;
+      console.log('Nombre Editado Satisfactoriamente');
+    });
+
+    exec('node test_image/quicktest.js', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.error(`stderr: ${stderr}`);
+    });
   });
+
   // console.log(req.params); //obtiene  datos del id (url) parametros
   res.send("POST REQUEST RECEIVED"); //request post
 });

@@ -19,10 +19,10 @@ module.exports = {
     const clickGestionarPerido = '#nav a[href="./packages/dnsia/ciclo_pa.php?lang=es"]';
     const clickRecordAcademico = 'a[href="../../packages/dnsia/3.04.php"]';
     const clickGenerarPDF = '#extra a[href="../../packages/dnsia/3.04.php?id_estudiante=11777&print=1"]';
-    const clickcerrarSesion = '#navPanel a[href="../../sac/security/desconectar.php?lang=es"]';
+    const clickcerrarSesion = '#navPanel nav a[href="./sac/security/desconectar.php?lang=es"]';
 
     browser
-      .url('https://www.asfi.gob.bo/')
+      .url('http://jornadasciberseguridad.riasc.unileon.es/archivos/ejemplo_esp.pdf')
       // .url('https://dnsia.informatica.edu.bo/')
       // .pause(8000)
       // .setValue(mainLoginInput, mainLogin)
@@ -37,7 +37,7 @@ module.exports = {
       // .click(clickGenerarPDF)
       // .pause(10000)
       // .click(clickcerrarSesion)
-
+      .pause(1000)
       // .saveScreenshot('tests_output/dnsia.png')
       .end();
   }
