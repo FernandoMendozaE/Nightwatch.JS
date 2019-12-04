@@ -14,12 +14,12 @@
     "chromedriver": "^78.0.1",
     "express": "^4.17.1",
     "file-system": "^2.2.2",
+    "filesource-p": "^1.0.10",
     "geckodriver": "^1.19.1",
     "nightwatch": "^1.2.4",
     "pdf2png": "^1.0.5",
     "selenium-server": "^3.141.59",
     "selenium-webdriver": "^4.0.0-alpha.5",
-    "tmp": "0.0.23",
-    "filesource-p": "latest"
+    "tmp": "0.0.23"
   }
 }

@@ -18,9 +18,11 @@ app.get("/user", (req, res) => {
 }); //recibe una peticion HTTP(get) y realiza algo
 
 // Creación de Router
-//:id : request parms (parametro recivido mediante la url)
 app.post("/user", (req, res) => {
   console.log(req.body);
+  let ci = req.body.ci;
+  let password = req.body.password;
+
   exec(`npm --varCi=${req.body.ci} --varPassword=${req.body.password} test -- --tag dnsia`, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
@@ -28,32 +30,35 @@ app.post("/user", (req, res) => {
     }
     console.log(`stdout: ${stdout}`);
     console.error(`stderr: ${stderr}`);
-    fs.rename('./test_image/pdf/ejemplo_esp.pdf', './test_image/pdf/cambio.pdf', (err) => {
+    fs.rename('./test_image/pdf/ejemplo_esp.pdf', `./test_image/pdf/${ci}-${password}.pdf`, (err) => {
       if (err) throw err;
       console.log('Nombre Editado Satisfactoriamente');
+      
+      let obj = {
+        'ci': ci,
+        'password': password
+      }
+      let listadoPorHacer = [];
+      listadoPorHacer.push(obj);
+      let data = JSON.stringify(listadoPorHacer);
+      fs.writeFile("db/data.json", data, err => {
+        if (err) throw new Error("No se puedo grabar", err);
+      });
+
+      exec('node test_image/quicktest.js', (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+      });
     });
 
-    exec('node test_image/quicktest.js', (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-      console.error(`stderr: ${stderr}`);
-    });
   });
 
   // console.log(req.params); //obtiene  datos del id (url) parametros
   res.send("POST REQUEST RECEIVED"); //request post
-});
-
-app.put("/user/:userId", (req, res) => {
-  console.log(req.body);
-  res.send(`User ${req.params.userId} update`);
-});
-
-app.delete("/user/:id", (req, res) => {
-  res.send(`User ${req.params.id} deleted`); //responde la petición
 });
 
 app.listen(3000, () => {

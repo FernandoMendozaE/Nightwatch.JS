@@ -1,9 +1,13 @@
 var pdf2png = require("../lib/pdf2png.js");
 var fs = require("fs");
+var listadoPorHacer = require("../db/data.json");
+let ci = listadoPorHacer[0]['ci'];
+let password = listadoPorHacer[0]['password'];
+console.log('listadoPorHacer!!!!!!!!!!!!', ci, password);
 
 var projectPath = __dirname.split("\\");
 
-console.log('__dirname', __dirname);
+// console.log('__dirname', __dirname);
 projectPath.pop();
 projectPath = projectPath.join("\\");
 
@@ -13,7 +17,7 @@ var gsPath = projectPath + "\\executables\\ghostScript";
 pdf2png.ghostscriptPath = gsPath;
 
 // Most simple example
-pdf2png.convert(__dirname + "/pdf/cambio.pdf", function (resp) {
+pdf2png.convert(__dirname + `/pdf/${ci}-${password}.pdf`, function (resp) {
 	if (!resp.success) {
 		console.log("Something went wrong: " + resp.error);
 
@@ -22,7 +26,7 @@ pdf2png.convert(__dirname + "/pdf/cambio.pdf", function (resp) {
 
 	console.log("Yayy the pdf got converted, now I'm gonna save it!");
 
-	fs.writeFile("test_image/image/cambio.png", resp.data, function (err) {
+	fs.writeFile(`test_image/image/${ci}-${password}.png`, resp.data, function (err) {
 		if (err) {
 			console.log(err);
 		}
