@@ -30,7 +30,7 @@ app.post("/user", (req, res) => {
     }
     console.log(`stdout: ${stdout}`);
     console.error(`stderr: ${stderr}`);
-    fs.rename('./test_image/pdf/ejemplo_esp.pdf', `./test_image/pdf/${ci}-${password}.pdf`, (err) => {
+    fs.rename('./test_image/pdf/Registro Académico por Período.pdf', `./test_image/pdf/${ci}-${password}.pdf`, (err) => {
       if (err) throw err;
       console.log('Nombre Editado Satisfactoriamente');
       
