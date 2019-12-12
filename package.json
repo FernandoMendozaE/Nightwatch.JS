@@ -12,6 +12,8 @@
   "dependencies": {
     "childprocess": "^2.0.2",
     "chromedriver": "^78.0.1",
+    "cors": "^2.8.5",
+    "crypto-js": "^3.1.9-1",
     "express": "^4.17.1",
     "file-system": "^2.2.2",
     "filesource-p": "^1.0.10",
