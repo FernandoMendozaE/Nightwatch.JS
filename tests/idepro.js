@@ -1,8 +1,15 @@
 module.exports = {
   "@tags": ["idepro"],
   "CIC advanced search: Reporte"(browser) {
-    const mainUser = "cmontesinos@idepro.org";
-    const mainPassword = "SF31hcxJ";
+
+    // let user = process.env.npm_config_varUser
+    // let password = process.env.npm_config_varPassword
+    // let clienteCI = process.env.npm_config_varclienteCI
+    // console.log('data', user, password, clienteCI)
+
+
+    const mainUser = process.env.npm_config_varUser;
+    const mainPassword = process.env.npm_config_varPassword;
 
     const mainQueryInputUser = 'input[name="ctl00$IFMainContent$txtLogin"]';
     const mainQueryInputPassword =
@@ -10,6 +17,7 @@ module.exports = {
     const submitButtonSelector = '.btnAceptar[type="submit"]';
     const submitButtonConsultaCod = 'a[href="ConsultasDefault.aspx?opPag=1"]';
 
+    const mainCodIdentidad = process.env.npm_config_varclienteCI; 
     // const mainCodIdentidad = "2487231LP"; //SinCheck
     // const mainCodIdentidad = "25856301DLP"; //Check1 Correcto
     // const mainCodIdentidad = "2585630LP"; //Check1
@@ -17,7 +25,7 @@ module.exports = {
     // const mainCodIdentidad = '2154399LP'; //Check2
     // const mainCodIdentidad = '6983244LP'; //Check3
     // const mainCodIdentidad = "2349639LP"; //Check4
-    const mainCodIdentidad = "6111211LP"; //Desconocido
+    // const mainCodIdentidad = "6111211LP"; //Desconocido
 
     const mainQueryInputCodIdentidad =
       'input[name="ctl00$ctl00$IFMainContent$DefaultContent$txtIdentificacion"]';
@@ -217,7 +225,7 @@ module.exports = {
       } else {
         browser
           // .pause(8000)
-          .click(resultado)
+          // .click(resultado)
           .pause(2000)
           .end();
         //Element does not exist, do something else
