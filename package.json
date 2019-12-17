@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nightwatch"
+    "test": "nightwatch",
+    "start": "node routes/index.js"
   },
   "keywords": [],
   "author": "",
