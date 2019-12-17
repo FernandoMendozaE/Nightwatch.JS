@@ -4,6 +4,7 @@ const { exec } = require('child_process')
 const fs = require('fs')
 var cors = require('cors')
 let CryptoJS = require('crypto-js')
+// const axios = require('axios')
 
 // app.use(express.json()) // linea de código encargado de hacer conocer el formato JSON
 
@@ -65,6 +66,8 @@ app.post('/user/', cors(), (req, res) => {
               console.error(`exec error: ${error}`)
               return
             }
+
+            console.log(response)
             console.log(`stdout: ${stdout}`)
             console.error(`stderr: ${stderr}`)
             res.send('POST REQUEST RECEIVED') //request post
