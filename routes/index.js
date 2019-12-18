@@ -4,7 +4,11 @@ const { exec } = require('child_process')
 const fs = require('fs')
 var cors = require('cors')
 let CryptoJS = require('crypto-js')
-// const axios = require('axios')
+const axios = require('axios')
+const qs = require('qs')
+const config = require('../configData')
+const image2base64 = require('image-to-base64')
+const { finder } = require('../imageFinder')
 
 // app.use(express.json()) // linea de código encargado de hacer conocer el formato JSON
 
@@ -67,10 +71,43 @@ app.post('/user/', cors(), (req, res) => {
               return
             }
 
-            console.log(response)
-            console.log(`stdout: ${stdout}`)
-            console.error(`stderr: ${stderr}`)
-            res.send('POST REQUEST RECEIVED') //request post
+            image2base64(`${config.url}/test_image/image/9192540-.png`)
+              .then(response => {
+                // console.log(response) //iVBORw0KGgoAAAANSwCAIA...
+                axios
+                  .post(
+                    config.urlImage,
+                    qs.stringify({
+                      img: response
+                    })
+                  )
+                  .then(function(response) {
+                    console.log(response)
+                    let dato = response.data.data.prediction
+                    let autorizacion = finder(dato).autorizacion
+                    let obj = finder(dato)
+                    console.log('Autorización:', autorizacion, obj)
+                    console.log(`stdout: ${stdout}`)
+                    console.error(`stderr: ${stderr}`)
+                    exec(
+                      'npm --varUser=${user} --varPassword=${autorizacion} --varclienteCI=${autorizacion} test -- --tag google',
+                      (error, stdout, stderr) => {
+                        if (error) {
+                          console.error(`exec error: ${error}`)
+                          return
+                        }
+                        res.send('POST REQUEST RECEIVED') //request post
+                      }
+                    )
+                  })
+                  .catch(function(error) {
+                    console.log(error)
+                    res.send('POST REQUEST RECEIVED ERROR') //request post
+                  })
+              })
+              .catch(error => {
+                console.log(error) //Exepection error....
+              })
           })
         }
       )
@@ -80,6 +117,6 @@ app.post('/user/', cors(), (req, res) => {
   // console.log(req.params); //obtiene  datos del id (url) parametros
 })
 
-app.listen(5000, () => {
-  console.log('Serve on port 5000')
+app.listen(5001, () => {
+  console.log('Serve on port 5001')
 }) //levantar el servicio
