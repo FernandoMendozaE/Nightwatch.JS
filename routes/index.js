@@ -4,6 +4,11 @@ const { exec } = require('child_process')
 const fs = require('fs')
 var cors = require('cors')
 let CryptoJS = require('crypto-js')
+const axios = require('axios')
+const qs = require('qs')
+const config = require('../configData')
+const image2base64 = require('image-to-base64')
+const { finder } = require('../imageFinder')
 
 // app.use(express.json()) // linea de código encargado de hacer conocer el formato JSON
 
@@ -29,7 +34,7 @@ app.post('/cic/', cors(), (req, res) => {
   let user = req.body.user
   let password = req.body.password
   let ciCliente = req.body.ciCliente
-  let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
+  // let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
   // password = bytes.toString(CryptoJS.enc.Utf8)
   console.log('Datos:', user, ciCliente, password)
 
@@ -62,13 +67,48 @@ app.post('/cic/', cors(), (req, res) => {
           })
 
           exec('node test_image/quicktest.js', (error, stdout, stderr) => {
+            console.log('__dirname!!!!!!!!!!!', __dirname)
             if (error) {
               console.error(`exec error: ${error}`)
               return
             }
-            console.log(`stdout: ${stdout}`)
-            console.error(`stderr: ${stderr}`)
-            res.send('POST REQUEST RECEIVED') //request post
+            image2base64(`${config.url}/test_image/image/${ciCliente}-${user}-CIC.png`)
+              .then(response => {
+                console.log(response) //iVBORw0KGgoAAAANSwCAIA...
+                axios
+                  .post(
+                    config.urlImage,
+                    qs.stringify({
+                      img: response
+                    })
+                  )
+                  .then(function(response) {
+                    console.log(response)
+                    let dato = response.data.data.prediction
+                    let autorizacion = finder(dato).autorizacion
+                    let obj = finder(dato)
+                    console.log('Autorización:', autorizacion, obj)
+                    console.log(`stdout: ${stdout}`)
+                    console.error(`stderr: ${stderr}`)
+                    exec(
+                      'npm --varUser=${user} --varPassword=${autorizacion} --varclienteCI=${autorizacion} test -- --tag google',
+                      (error, stdout, stderr) => {
+                        if (error) {
+                          console.error(`exec error: ${error}`)
+                          return
+                        }
+                        res.send('POST REQUEST RECEIVED') //request post
+                      }
+                    )
+                  })
+                  .catch(function(error) {
+                    console.log(error)
+                    res.send('POST REQUEST RECEIVED ERROR') //request post
+                  })
+              })
+              .catch(error => {
+                console.log(error) //Exepection error....
+              })
           })
         }
       )
