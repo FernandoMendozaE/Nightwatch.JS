@@ -1,6 +1,6 @@
 var pdf2png = require('../lib/pdf2png.js')
 var fs = require('fs')
-var listadoPorHacer = require('../db/data.json')
+var listadoPorHacer = require('../file/data.json')
 let ciCliente = listadoPorHacer[0]['ciCliente']
 let user = listadoPorHacer[0]['user']
 let autorizacion = listadoPorHacer[0]['autorizacion']

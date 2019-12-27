@@ -34,22 +34,22 @@ module.exports = {
 
     // Clicks
     const checkOp1 =
-      '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow0 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn0"]';
+      '#IFMainContent_DefaultContent_devgvMismosCI_DXMainTable > tbody > tr:nth-child(2) > td > span';
     const ci_checkOp1 =
       "#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow0 >td:nth-child(4)";
 
     const checkOp2 =
-      '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow1 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn1"]';
+      '#IFMainContent_DefaultContent_devgvMismosCI_DXMainTable > tbody > tr:nth-child(3) > td > span';
     const ci_checkOp2 =
       "#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow1 >td:nth-child(4)";
 
     const checkOp3 =
-      '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow2 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn2"]';
+      '#IFMainContent_DefaultContent_devgvMismosCI_DXMainTable > tbody > tr:nth-child(4) > td > span';
     const ci_checkOp3 =
       "#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow2 >td:nth-child(4)";
 
     const checkOp4 =
-      '#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow3 input[id="IFMainContent_DefaultContent_devgvMismosCI_DXSelBtn3"]';
+      '#IFMainContent_DefaultContent_devgvMismosCI_DXMainTable > tbody > tr:nth-child(5) > td > span';
 
     const ci_checkOp4 =
       "#IFMainContent_DefaultContent_devgvMismosCI_DXDataRow3 >td:nth-child(4)";
@@ -85,7 +85,10 @@ module.exports = {
                       console.log("object", result.value);
                       if (result.value === mainCodIdentidad) {
                         console.log("Correcto!");
-                        browser.click(checkOp1).pause(1000);
+                        browser.click({
+                          selector: checkOp1,
+                          timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                        });
                       } else {
                         console.log("Incorrecto!");
                       }
@@ -94,7 +97,10 @@ module.exports = {
                       console.log("object", result.value);
                       if (result.value === mainCodIdentidad) {
                         console.log("Correcto!");
-                        browser.click(checkOp2).pause(1000);
+                        browser.click({
+                          selector: checkOp2,
+                          timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                        });
                       } else {
                         console.log("Incorrecto!");
                       }
@@ -103,7 +109,10 @@ module.exports = {
                       console.log("object", result.value);
                       if (result.value === mainCodIdentidad) {
                         console.log("Correcto!");
-                        browser.click(checkOp3).pause(1000);
+                        browser.click({
+                          selector: checkOp3,
+                          timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                        });
                       } else {
                         console.log("Incorrecto!");
                       }
@@ -112,7 +121,10 @@ module.exports = {
                       console.log("object", result.value);
                       if (result.value === mainCodIdentidad) {
                         console.log("Correcto!");
-                        browser.click(checkOp4);
+                        browser.click({
+                          selector: checkOp4,
+                          timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                        });
                       } else {
                         console.log("Incorrecto!");
                       }
@@ -131,7 +143,10 @@ module.exports = {
                       console.log("object", result.value);
                       if (result.value === mainCodIdentidad) {
                         console.log("Correcto!");
-                        browser.click(checkOp1).pause(1000);
+                        browser.click({
+                          selector: checkOp1,
+                          timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                        });
                       } else {
                         console.log("Incorrecto!");
                       }
@@ -140,7 +155,10 @@ module.exports = {
                       console.log("object", result.value);
                       if (result.value === mainCodIdentidad) {
                         console.log("Correcto!");
-                        browser.click(checkOp2).pause(1000);
+                        browser.click({
+                          selector: checkOp2,
+                          timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                        });
                       } else {
                         console.log("Incorrecto!");
                       }
@@ -149,7 +167,10 @@ module.exports = {
                       console.log("object", result.value);
                       if (result.value === mainCodIdentidad) {
                         console.log("Correcto!");
-                        browser.click(checkOp3);
+                        browser.click({
+                          selector: checkOp3,
+                          timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                        });
                       } else {
                         console.log("Incorrecto!");
                       }
@@ -170,7 +191,10 @@ module.exports = {
                   console.log("object", result.value);
                   if (result.value === mainCodIdentidad) {
                     console.log("Correcto!");
-                    browser.click(checkOp1).pause(1000);
+                    browser.click({
+                      selector: checkOp1,
+                      timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                    });
                   } else {
                     console.log("Incorrecto!");
                   }
@@ -179,7 +203,10 @@ module.exports = {
                   console.log("object", result.value);
                   if (result.value === mainCodIdentidad) {
                     console.log("Correcto!");
-                    browser.click(checkOp2);
+                    browser.click({
+                      selector: checkOp2,
+                      timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                    });
                   } else {
                     console.log("Incorrecto!");
                   }
@@ -200,14 +227,10 @@ module.exports = {
               console.log("object", result.value);
               if (result.value === mainCodIdentidad) {
                 console.log("Correcto!");
-                browser
-                  .click(checkOp1)
-                  .pause(1000)
-                  .click(consultaCheck)
-                  .pause(1000)
-                  .click(resultado)
-                  .pause(2000)
-                  .end();
+                browser.click({
+                  selector: checkOp1,
+                  timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+                });
               } else {
                 console.log("Incorrecto!");
                 browser

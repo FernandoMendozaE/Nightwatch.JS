@@ -6,9 +6,9 @@ var cors = require('cors')
 let CryptoJS = require('crypto-js')
 const axios = require('axios')
 const qs = require('qs')
-const config = require('../configData')
+const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
-const { finder } = require('../imageFinder')
+const { finder } = require('../utilitarios/imageFinder')
 
 // app.use(express.json()) // linea de código encargado de hacer conocer el formato JSON
 
@@ -62,7 +62,7 @@ app.post('/cic/', cors(), (req, res) => {
           let listadoPorHacer = []
           listadoPorHacer.push(obj)
           let data = JSON.stringify(listadoPorHacer)
-          fs.writeFile('db/data.json', data, err => {
+          fs.writeFile('file/data.json', data, err => {
             if (err) throw new Error('No se puedo grabar', err)
           })
 
@@ -90,20 +90,53 @@ app.post('/cic/', cors(), (req, res) => {
                     console.log('Autorización:', autorizacion, obj)
                     console.log(`stdout: ${stdout}`)
                     console.error(`stderr: ${stderr}`)
+                   
+                    //CPOP
                     exec(
-                      'npm --varUser=${user} --varPassword=${autorizacion} --varclienteCI=${autorizacion} test -- --tag google',
+                      `npm --varUser=${user} --varPassword=${password} --varClienteCI=${ciCliente} --varAutorizacion=${autorizacion} test -- --tag cpop`,
                       (error, stdout, stderr) => {
                         if (error) {
                           console.error(`exec error: ${error}`)
                           return
                         }
-                        res.send('POST REQUEST RECEIVED') //request post
+                        console.log(`stdout: ${stdout}`)
+                        console.error(`stderr: ${stderr}`)
+                        fs.rename(
+                          './test_image/pdf/rptCertificadoCPOP.pdf',
+                          `./test_image/pdf/${ciCliente}-${user}-CPOP.pdf`,
+                          err => {
+                            if (err) throw err
+                            console.log('Nombre Editado Satisfactoriamente')
+                  
+                            let obj = {
+                              ciCliente: ciCliente,
+                              user: user,
+                              autorizacion: autorizacion
+                            }
+                            let listadoPorHacer = []
+                            listadoPorHacer.push(obj)
+                            let data = JSON.stringify(listadoPorHacer)
+                            fs.writeFile('file/data.json', data, err => {
+                              if (err) throw new Error('No se puedo grabar', err)
+                            })
+                  
+                            exec('node test_image/quicktest.js', (error, stdout, stderr) => {
+                              if (error) {
+                                console.error(`exec error: ${error}`)
+                                return
+                              }
+                              console.log(`stdout: ${stdout}`)
+                              console.error(`stderr: ${stderr}`)
+                              res.send('POST REQUEST RECEIVED') //request post
+                            })
+                          }
+                        )
                       }
                     )
                   })
                   .catch(function(error) {
                     console.log(error)
-                    res.send('POST REQUEST RECEIVED ERROR') //request post
+                    res.send('POST REQUEST ERROR') //request post
                   })
               })
               .catch(error => {
@@ -153,7 +186,7 @@ app.post('/cpop/', cors(), (req, res) => {
           let listadoPorHacer = []
           listadoPorHacer.push(obj)
           let data = JSON.stringify(listadoPorHacer)
-          fs.writeFile('db/data.json', data, err => {
+          fs.writeFile('file/data.json', data, err => {
             if (err) throw new Error('No se puedo grabar', err)
           })
 
