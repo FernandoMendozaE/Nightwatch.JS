@@ -4,7 +4,8 @@ function finder(dato = '') {
   let arregloDeSubCadenas = dato.split(separador)
   // console.log('arregloDeSubCadenas', arregloDeSubCadenas)
   let arrayAutorizacion = arregloDeSubCadenas[0].split(' ')
-  let autorizacion = arrayAutorizacion[9]
+  console.log('arrayAutorizacion!!!!!!!!', arrayAutorizacion)
+  let autorizacion = (arrayAutorizacion[9]) ? arrayAutorizacion[9] : arregloDeSubCadenas[6] 
   // console.log('autorizacion :', autorizacion)
   data['autorizacion'] = autorizacion
 

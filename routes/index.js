@@ -74,7 +74,6 @@ app.post('/cic/', cors(), (req, res) => {
             }
             image2base64(`${config.url}/test_image/image/${ciCliente}-${user}-CIC.png`)
               .then(response => {
-                console.log(response) //iVBORw0KGgoAAAANSwCAIA...
                 axios
                   .post(
                     config.urlImage,

@@ -34,8 +34,11 @@ module.exports = {
         .setValue(mainQueryInputIdent, mainIdentidad)
         .setValue(mainQueryInputAutori, mainAutorizacion)
         // .pause(200000)
-        .click(submitButtonConsultar)
-        .pause(2000);
+        browser.click({
+          selector: submitButtonConsultar,
+          timeout: 2000 // overwrite the default timeout (in ms) to check if the element is present
+        });
+        browser.pause(2000);
     }
   };
   

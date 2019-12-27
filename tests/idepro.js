@@ -249,7 +249,7 @@ module.exports = {
         browser
           // .pause(8000)
           // .click(resultado)
-          .pause(2000)
+          .pause(5000)
           .end();
         //Element does not exist, do something else
       }
