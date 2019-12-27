@@ -14,7 +14,7 @@
         "chromeOptions": {
           "args": [
             "start-maximized",
-            "user-data-dir=/Users/Lopez/Desktop/Robotizacion/cpop/Nightwatch.JS/chrome/robot"
+            "user-data-dir=/home/linuxlite/wwww/robotizacion/Nightwatch.JS/chrome/robot"
           ],
           "extensions": []
         }

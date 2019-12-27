@@ -1,6 +1,0 @@
-2019/12/16-14:28:04.576 1ec Recovering log #108
-2019/12/16-14:28:04.576 1ec Level-0 table #110: started
-2019/12/16-14:28:04.581 1ec Level-0 table #110: 765 bytes OK
-2019/12/16-14:28:04.594 1ec Delete type=0 #108
-2019/12/16-14:28:04.594 1ec Delete type=3 #106
-2019/12/16-14:28:04.599 5658 Moved #95 to level-1 773 bytes OK: files[ 3 17 0 0 0 0 0 ]
