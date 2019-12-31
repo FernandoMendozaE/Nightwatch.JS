@@ -117,6 +117,6 @@ app.post('/user/', cors(), (req, res) => {
   // console.log(req.params); //obtiene  datos del id (url) parametros
 })
 
-app.listen(5001, () => {
-  console.log('Serve on port 5001')
+app.listen(5000, () => {
+  console.log('Serve on port 5000')
 }) //levantar el servicio
