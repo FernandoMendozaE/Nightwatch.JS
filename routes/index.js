@@ -43,17 +43,15 @@ app.post('/cic/', cors(), (req, res) => {
     (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`)
+        res.send('Error al consultar CIC')
         return
       }
-      console.log(`stdout: ${stdout}`)
-      console.error(`stderr: ${stderr}`)
       fs.rename(
         './test_image/pdf/rptDeudaEntidad.pdf',
         `./test_image/pdf/${ciCliente}-${user}-CIC.pdf`,
         err => {
           if (err) throw err
           console.log('Nombre Editado Satisfactoriamente')
-
           let obj = {
             ciCliente: ciCliente,
             user: user,
@@ -67,9 +65,9 @@ app.post('/cic/', cors(), (req, res) => {
           })
 
           exec('node test_image/quicktest.js', (error, stdout, stderr) => {
-            console.log('__dirname!!!!!!!!!!!', __dirname)
             if (error) {
               console.error(`exec error: ${error}`)
+              res.send('Error al cambiar formato pdf a png CIC')
               return
             }
             image2base64(`${config.url}/test_image/image/${ciCliente}-${user}-CIC.png`)
@@ -87,15 +85,14 @@ app.post('/cic/', cors(), (req, res) => {
                     let autorizacion = finder(dato).autorizacion
                     let obj = finder(dato)
                     console.log('Autorización:', autorizacion, obj)
-                    console.log(`stdout: ${stdout}`)
-                    console.error(`stderr: ${stderr}`)
-                   
-                    //CPOP
+
+                    //Consulta CPOP
                     exec(
                       `npm --varUser=${user} --varPassword=${password} --varClienteCI=${ciCliente} --varAutorizacion=${autorizacion} test -- --tag cpop`,
                       (error, stdout, stderr) => {
                         if (error) {
                           console.error(`exec error: ${error}`)
+                          res.send('Error al consultar CPOP')
                           return
                         }
                         console.log(`stdout: ${stdout}`)
@@ -106,7 +103,7 @@ app.post('/cic/', cors(), (req, res) => {
                           err => {
                             if (err) throw err
                             console.log('Nombre Editado Satisfactoriamente')
-                  
+
                             let obj = {
                               ciCliente: ciCliente,
                               user: user,
@@ -118,15 +115,14 @@ app.post('/cic/', cors(), (req, res) => {
                             fs.writeFile('file/data.json', data, err => {
                               if (err) throw new Error('No se puedo grabar', err)
                             })
-                  
+
                             exec('node test_image/quicktest.js', (error, stdout, stderr) => {
                               if (error) {
                                 console.error(`exec error: ${error}`)
+                                res.send('Error al cambiar formato pdf a png CPOP')
                                 return
                               }
-                              console.log(`stdout: ${stdout}`)
-                              console.error(`stderr: ${stderr}`)
-                              res.send('POST REQUEST RECEIVED') //request post
+                              res.send('Consulta exitoso') //request post
                             })
                           }
                         )
@@ -135,11 +131,12 @@ app.post('/cic/', cors(), (req, res) => {
                   })
                   .catch(function(error) {
                     console.log(error)
-                    res.send('POST REQUEST ERROR') //request post
+                    res.send('Error al servivio reconociemnto de imagenes') //request post
                   })
               })
               .catch(error => {
                 console.log(error) //Exepection error....
+                res.send('Error al convertir png a base64')
               })
           })
         }
