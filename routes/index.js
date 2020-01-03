@@ -31,12 +31,13 @@ app.get('/user', (req, res) => {
 // Creación de Router
 app.post('/user/', cors(), (req, res) => {
   console.log(req.body)
+  let codigoUsuario = req.body.codigoUsuario
   let user = req.body.user
   let ciCliente = req.body.ciCliente
   let password = req.body.password
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
   password = bytes.toString(CryptoJS.enc.Utf8)
-  console.log('Datos:', user, ciCliente, password)
+  console.log('Datos:', user, ciCliente, password, codigoUsuario)
 
   exec(
     `npm --varUser=${user} --varPassword=${password} --varclienteCI=${ciCliente} test -- --tag dnsia`,
@@ -45,18 +46,18 @@ app.post('/user/', cors(), (req, res) => {
         console.error(`exec error: ${error}`)
         return
       }
-      console.log(`stdout: ${stdout}`)
+      console.log(`stdout------>: ${stdout}`)
       console.error(`stderr: ${stderr}`)
       fs.rename(
         './test_image/pdf/ejemplo_esp.pdf',
-        `./test_image/pdf/${user}-${password}.pdf`,
+        `./test_image/pdf/${codigoUsuario}-${ciCliente}.pdf`,
         err => {
           if (err) throw err
           console.log('Nombre Editado Satisfactoriamente')
 
           let obj = {
-            user: user,
-            password: password
+            codigoUsuario: codigoUsuario,
+            ciCliente: ciCliente
           }
           let listadoPorHacer = []
           listadoPorHacer.push(obj)
@@ -70,47 +71,34 @@ app.post('/user/', cors(), (req, res) => {
               console.error(`exec error: ${error}`)
               return
             }
-
-            image2base64(`${config.url}/test_image/image/9192540-.png`)
-              .then(response => {
-                // console.log(response) //iVBORw0KGgoAAAANSwCAIA...
-                axios
-                  .post(
-                    config.urlImage,
-                    qs.stringify({
-                      img: response
-                    })
-                  )
-                  .then(function(response) {
-                    console.log(response)
-                    let dato = response.data.data.prediction
-                    let autorizacion = finder(dato).autorizacion
-                    let obj = finder(dato)
-                    console.log('Autorización:', autorizacion, obj)
-                    console.log(`stdout: ${stdout}`)
-                    console.error(`stderr: ${stderr}`)
-                    exec(
-                      'npm --varUser=${user} --varPassword=${autorizacion} --varclienteCI=${autorizacion} test -- --tag google',
-                      (error, stdout, stderr) => {
-                        if (error) {
-                          console.error(`exec error: ${error}`)
-                          return
-                        }
-                        res.send('POST REQUEST RECEIVED') //request post
-                      }
-                    )
-                  })
-                  .catch(function(error) {
-                    console.log(error)
-                    res.send('POST REQUEST RECEIVED ERROR') //request post
-                  })
-              })
-              .catch(error => {
-                console.log(error) //Exepection error....
-              })
+            res.send('POST REQUEST RECEIVED') //request post
           })
         }
       )
+    }
+  )
+
+  // console.log(req.params); //obtiene  datos del id (url) parametros
+})
+
+app.post('/buscar/', cors(), (req, res) => {
+  console.log(req.body)
+  let codigoUsuario = req.body.codigoUsuario
+  let ciCliente = req.body.ciCliente
+  let IdClienteActual = req.body.IdClienteActual
+  console.log('Datos:', codigoUsuario, ciCliente, IdClienteActual)
+
+  let ruta = `c:\\sistemas\\FroddiUsuario\\public\\recursos\\${IdClienteActual}`
+  exec(
+    `move test_image\\image\\${codigoUsuario}-${ciCliente}.png ${ruta}`,
+    (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`)
+        return
+      }
+      console.log(`stdout: ${stdout}`)
+      console.error(`stderr: ${stderr}`)
+      res.send('Busqueda exitosa')
     }
   )
 
