@@ -1,3 +1,5 @@
+const config = require('../utilitarios/configData')
+
 module.exports = {
   "@tags": ["idepro"],
   "CIC advanced search: Reporte"(browser) {
@@ -72,7 +74,7 @@ module.exports = {
       .click(submitButtonConsultar)
 
       // checks
-      .pause(2000);
+      .pause(`${config.time}`);
     browser.element("css selector", checkOp1, function(result) {
       if (result.status != -1) {
         browser.element("css selector", checkOp2, function(result) {

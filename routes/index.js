@@ -1,3 +1,7 @@
+/**
+ * Autor: Fernando Mendoza Escobar
+ */
+
 const express = require('express')
 const app = express() //obtiene el objeto express
 const { exec } = require('child_process')
