@@ -1,6 +1,7 @@
 // const url = '/home/linuxlite/ProyectosLinux/Node/Nightwatch.JS'
 // const url = 'c:/Users/Lopez/Desktop/Robotizacion/union/Nightwatch.JS' //Windows Freddy
-const url = '/home/linuxlite/Nightwatch.JS' //Linux Lite Freddy
+const url = 'c:/inetpub/wwwroot/FroddiIdepro/ServicioRobotizacion' //Linux Lite Freddy
 const urlImage = 'http://200.105.146.210:4500/reconocimiento/caracter'
+const time = '2000'
 
-module.exports = { url, urlImage }
+module.exports = { url, urlImage, time }
