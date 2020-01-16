@@ -12,7 +12,7 @@ const axios = require('axios')
 const qs = require('qs')
 const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
-const { finder } = require('../utilitarios/imageFinder')
+const { finderCIC, finderCPOP } = require('../utilitarios/imageFinder')
 
 // app.use(express.json()) // linea de código encargado de hacer conocer el formato JSON
 
@@ -86,8 +86,8 @@ app.post('/cic/', cors(), (req, res) => {
                   .then(function(response) {
                     console.log(response)
                     let dato = response.data.data.prediction
-                    let autorizacion = finder(dato).autorizacion
-                    let obj = finder(dato)
+                    let autorizacion = finderCIC(dato).autorizacion
+                    let obj = finderCIC(dato)
                     console.log('Autorización:', autorizacion, obj)
 
                     //Consulta CPOP

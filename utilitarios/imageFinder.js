@@ -1,11 +1,13 @@
-function finder(dato = '') {
+function finderCIC(dato = '') {
   let data = {}
   let separador = '\n' // un espacio en blanco
   let arregloDeSubCadenas = dato.split(separador)
   // console.log('arregloDeSubCadenas', arregloDeSubCadenas)
   let arrayAutorizacion = arregloDeSubCadenas[0].split(' ')
   console.log('arrayAutorizacion!!!!!!!!', arrayAutorizacion)
-  let autorizacion = (arrayAutorizacion[9]) ? arrayAutorizacion[9] : arregloDeSubCadenas[6] 
+  let autorizacion = arrayAutorizacion[9]
+    ? arrayAutorizacion[9]
+    : arregloDeSubCadenas[6]
   // console.log('autorizacion :', autorizacion)
   data['autorizacion'] = autorizacion
 
@@ -109,4 +111,22 @@ function finder(dato = '') {
   return data
 }
 
-module.exports = { finder }
+function finderCPOP(dato = '') {
+  let separador = 'DOC. '
+  let arregloDeSubCadenas = dato.split(separador)
+
+  let arrayDato = arregloDeSubCadenas[1].split(' ')
+  let cumple
+  if (arrayDato[2] !== 'Si' && arrayDato[2] !== 'NO') {
+    if (arrayDato[1] !== 'Si' && arrayDato[1] !== 'NO') {
+      cumple = arrayDato[3]
+    } else {
+      cumple = arrayDato[1]
+    }
+  } else {
+    cumple = arrayDato[2]
+  }
+  return cumple
+}
+
+module.exports = { finderCIC, finderCPOP }
