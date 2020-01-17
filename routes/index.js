@@ -38,6 +38,13 @@ app.post('/cic/', cors(), (req, res) => {
   let user = req.body.user
   let password = req.body.password
   let ciCliente = req.body.ciCliente
+  let codigoUsuario = req.body.codigoUsuario
+  let ruta = req.body.ruta
+
+  // Fecha
+  var f = new Date()
+  let fecha = `7-${f.getMonth() + 1}-${f.getFullYear()}`
+
   // let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
   // password = bytes.toString(CryptoJS.enc.Utf8)
   console.log('Datos:', user, ciCliente, password)
@@ -52,13 +59,13 @@ app.post('/cic/', cors(), (req, res) => {
       }
       fs.rename(
         './test_image/pdf/rptDeudaEntidad.pdf',
-        `./test_image/pdf/${ciCliente}-${user}-CIC.pdf`,
+        `./test_image/pdf/${ciCliente}-${codigoUsuario}-CIC-${fecha}.pdf`,
         err => {
           if (err) throw err
           console.log('Nombre Editado Satisfactoriamente')
           let obj = {
             ciCliente: ciCliente,
-            user: user,
+            user: codigoUsuario,
             autorizacion: null
           }
           let listadoPorHacer = []
@@ -74,13 +81,13 @@ app.post('/cic/', cors(), (req, res) => {
               res.send('Error al cambiar formato pdf a png CIC')
               return
             }
-            image2base64(`${config.url}/test_image/image/${ciCliente}-${user}-CIC.png`)
-              .then(response => {
+            image2base64(`${config.url}/test_image/image/${ciCliente}-${codigoUsuario}-CIC-${fecha}.png`)
+              .then(responseBase64 => {
                 axios
                   .post(
                     config.urlImage,
                     qs.stringify({
-                      img: response
+                      img: responseBase64
                     })
                   )
                   .then(function(response) {
@@ -88,50 +95,44 @@ app.post('/cic/', cors(), (req, res) => {
                     let dato = response.data.data.prediction
                     let autorizacion = finderCIC(dato).autorizacion
                     let obj = finderCIC(dato)
-                    console.log('Autorización:', autorizacion, obj)
+                    console.log('Autorización:', autorizacion, obj) 
+                    
+                    // imagenes
+                    let imageNames = `${ciCliente}-${codigoUsuario}`
 
-                    //Consulta CPOP
+                    // data CIC
+                    let imageNameCIC = `${imageNames}-CIC-${fecha}`
+                    let dirCIC = finderCIC(dato).carteraDIR
+                    let base64CIC = responseBase64
+
                     exec(
-                      `npm --varUser=${user} --varPassword=${password} --varClienteCI=${ciCliente} --varAutorizacion=${autorizacion} test -- --tag cpop`,
+                      `move test_image\\image\\${imageNames}-CIC-${fecha}.png ${config.rutaFisa}\\${ruta}`,
                       (error, stdout, stderr) => {
                         if (error) {
                           console.error(`exec error: ${error}`)
-                          res.send('Error al consultar CPOP')
+                          res.send({
+                            Resultado: 'Archivo no encontrado para mover a la ruta.',
+                            Correcto: false
+                          })
                           return
                         }
                         console.log(`stdout: ${stdout}`)
                         console.error(`stderr: ${stderr}`)
-                        fs.rename(
-                          './test_image/pdf/rptCertificadoCPOP.pdf',
-                          `./test_image/pdf/${ciCliente}-${user}-CPOP.pdf`,
-                          err => {
-                            if (err) throw err
-                            console.log('Nombre Editado Satisfactoriamente')
-
-                            let obj = {
-                              ciCliente: ciCliente,
-                              user: user,
-                              autorizacion: autorizacion
-                            }
-                            let listadoPorHacer = []
-                            listadoPorHacer.push(obj)
-                            let data = JSON.stringify(listadoPorHacer)
-                            fs.writeFile('file/data.json', data, err => {
-                              if (err) throw new Error('No se puedo grabar', err)
-                            })
-
-                            exec('node test_image/quicktest.js', (error, stdout, stderr) => {
-                              if (error) {
-                                console.error(`exec error: ${error}`)
-                                res.send('Error al cambiar formato pdf a png CPOP')
-                                return
-                              }
-                              res.send('Consulta exitoso') //request post
-                            })
-                          }
-                        )
+                        obj = {
+                          sss: 454
+                        }
+                        console.log(obj)
+                        res.send({
+                          imageNameCIC,
+                          base64CIC,
+                          dirCIC,
+                          autorizacion,
+                          Resultado: 'Consulta CIC finalizadaa correctamente.',
+                          Correcto: true
+                        }) //request post
                       }
                     )
+
                   })
                   .catch(function(error) {
                     console.log(error)
@@ -150,6 +151,53 @@ app.post('/cic/', cors(), (req, res) => {
 
   // console.log(req.params); //obtiene  datos del id (url) parametros
 })
+
+
+//Consulta CPOP
+// exec(
+//   `npm --varUser=${user} --varPassword=${password} --varClienteCI=${ciCliente} --varAutorizacion=${autorizacion} test -- --tag cpop`,
+//   (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(`exec error: ${error}`)
+//       res.send('Error al consultar CPOP')
+//       return
+//     }
+//     console.log(`stdout: ${stdout}`)
+//     console.error(`stderr: ${stderr}`)
+//     fs.rename(
+//       './test_image/pdf/rptCertificadoCPOP.pdf',
+//       `./test_image/pdf/${ciCliente}-${user}-CPOP.pdf`,
+//       err => {
+//         if (err) throw err
+//         console.log('Nombre Editado Satisfactoriamente')
+
+//         let obj = {
+//           ciCliente: ciCliente,
+//           user: user,
+//           autorizacion: autorizacion
+//         }
+//         let listadoPorHacer = []
+//         listadoPorHacer.push(obj)
+//         let data = JSON.stringify(listadoPorHacer)
+//         fs.writeFile('file/data.json', data, err => {
+//           if (err) throw new Error('No se puedo grabar', err)
+//         })
+
+//         exec('node test_image/quicktest.js', (error, stdout, stderr) => {
+//           if (error) {
+//             console.error(`exec error: ${error}`)
+//             res.send('Error al cambiar formato pdf a png CPOP')
+//             return
+//           }
+//           res.send('Consulta exitoso') //request post
+//         })
+//       }
+//     )
+//   }
+// )
+
+
+
 
 // Creación de Router CPO
 app.post('/cpop/', cors(), (req, res) => {

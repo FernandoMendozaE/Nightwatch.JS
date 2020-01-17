@@ -18,9 +18,14 @@ var gsPath = projectPath + '\\executables\\ghostScript'
 // Rewrite the ghostscript path
 pdf2png.ghostscriptPath = gsPath
 
+// Fecha
+var f = new Date()
+let fecha = `7-${f.getMonth() + 1}-${f.getFullYear()}`
+
+
 // Example with higher quality
 if (!autorizacion) {
-  pdf2png.convert(__dirname + `/pdf/${ciCliente}-${user}-CIC.pdf`, { quality: 200 }, function(resp) {
+  pdf2png.convert(__dirname + `/pdf/${ciCliente}-${user}-CIC-${fecha}.pdf`, { quality: 200 }, function(resp) {
     if (!resp.success) {
       console.log('Something went wrong: ' + resp.error)
   
@@ -29,7 +34,7 @@ if (!autorizacion) {
   
     console.log("Yayy the pdf got converted, now I'm gonna save it!")
   
-    fs.writeFile(`test_image/image/${ciCliente}-${user}-CIC.png`, resp.data, function(err) {
+    fs.writeFile(`test_image/image/${ciCliente}-${user}-CIC-${fecha}.png`, resp.data, function(err) {
       if (err) {
         console.log(err)
       } else {
