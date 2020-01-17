@@ -43,7 +43,7 @@ if (!autorizacion) {
     })
   })
 } else {
-  pdf2png.convert(__dirname + `/pdf/${ciCliente}-${user}-CPOP.pdf`, { quality: 200 }, function(resp) {
+  pdf2png.convert(__dirname + `/pdf/${ciCliente}-${user}-CPOP-${fecha}.pdf`, { quality: 200 }, function(resp) {
     if (!resp.success) {
       console.log('Something went wrong: ' + resp.error)
   
@@ -52,7 +52,7 @@ if (!autorizacion) {
   
     console.log("Yayy the pdf got converted, now I'm gonna save it!")
   
-    fs.writeFile(`test_image/image/${ciCliente}-${user}-CPOP.png`, resp.data, function(err) {
+    fs.writeFile(`test_image/image/${ciCliente}-${user}-CPOP-${fecha}.png`, resp.data, function(err) {
       if (err) {
         console.log(err)
       } else {
