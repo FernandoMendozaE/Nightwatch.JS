@@ -33,21 +33,21 @@ app.get('/user', (req, res) => {
 }) //recibe una peticion HTTP(get) y realiza algo
 
 // Creación de Router CIC
-app.post('/cic/', cors(), (req, res) => {
+app.post('/user/', cors(), (req, res) => {
   console.log(req.body)
-  let user = req.body.user
+  let user = (req.body.user).toLowerCase()
   let password = req.body.password
-  let ciCliente = req.body.ciCliente
+  let ciCliente = '2154399LP'
   let codigoUsuario = req.body.codigoUsuario
   let ruta = req.body.ruta
+  let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
+  password = bytes.toString(CryptoJS.enc.Utf8)
+  console.log('Datos:', user, ciCliente, password)
 
   // Fecha
   var f = new Date()
-  let fecha = `7-${f.getMonth() + 1}-${f.getFullYear()}`
+  let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
 
-  // let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
-  // password = bytes.toString(CryptoJS.enc.Utf8)
-  console.log('Datos:', user, ciCliente, password)
 
   exec(
     `npm --varUser=${user} --varPassword=${password} --varclienteCI=${ciCliente} test -- --tag idepro`,
@@ -169,9 +169,9 @@ app.post('/cic/', cors(), (req, res) => {
                                         .then(function(response) {
                                           console.log(response)
                                           let dato = response.data.data.prediction
-                                          let cumple = finderCPOP(dato)
+                                          let cumplimientoCIC = finderCPOP(dato)
                                           let obj = finderCPOP(dato)
-                                          console.log('Autorización:', cumple, obj) 
+                                          console.log('Autorización:', cumplimientoCIC, obj) 
                                           
                                           // imagenes
                                           let imageNames = `${ciCliente}-${codigoUsuario}`
@@ -198,9 +198,10 @@ app.post('/cic/', cors(), (req, res) => {
                                                 base64CIC,
                                                 dirCIC,
                                                 autorizacion,
+                                                fecha,
                                                 imageNameCPOP,
                                                 base64CPOP,
-                                                cumple,
+                                                cumplimientoCIC,
                                                 Resultado: 'Consulta CIC finalizadaa correctamente.',
                                                 Correcto: true
                                               }) //request post

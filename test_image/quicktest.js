@@ -20,7 +20,7 @@ pdf2png.ghostscriptPath = gsPath
 
 // Fecha
 var f = new Date()
-let fecha = `7-${f.getMonth() + 1}-${f.getFullYear()}`
+let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
 
 
 // Example with higher quality
