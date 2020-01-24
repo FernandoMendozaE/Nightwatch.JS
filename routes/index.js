@@ -37,7 +37,11 @@ app.post('/user/', cors(), (req, res) => {
   console.log(req.body)
   let user = (req.body.user).toLowerCase()
   let password = req.body.password
-  let ciCliente = '2154399LP'
+  let _ciCliente = req.body.ciCliente.trim()
+  let arrayCliente = _ciCliente.split('  ')
+  let ciCliente = arrayCliente[0] + arrayCliente[1]
+  // let ciCliente = req.body.ciCliente + `LP`
+  // let ciCliente = '4262302LP'
   let codigoUsuario = req.body.codigoUsuario
   let ruta = req.body.ruta
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
