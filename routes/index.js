@@ -294,30 +294,32 @@ app.post('/cpop/', cors(), (req, res) => {
   let user = req.body.user
   let password = req.body.password
   let ciCliente = req.body.ciCliente
-  let autorizacion = req.body.autorizacion
+  let autorizacion = req. body.autorizacion
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
-  // password = bytes.toString(CryptoJS.enc.Utf8)
+  password = bytes.toString(CryptoJS.enc.Utf8)
   console.log('Datos:', user, ciCliente, password)
 
-  exec(
+   // Consulta CPOP
+   exec(
     `npm --varUser=${user} --varPassword=${password} --varClienteCI=${ciCliente} --varAutorizacion=${autorizacion} test -- --tag cpop`,
     (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`)
+        res.send('Error al consultar CPOP')
         return
       }
       console.log(`stdout: ${stdout}`)
       console.error(`stderr: ${stderr}`)
       fs.rename(
         './test_image/pdf/rptCertificadoCPOP.pdf',
-        `./test_image/pdf/${ciCliente}-${user}-CPOP.pdf`,
+        `./test_image/pdf/${ciCliente}-${codigoUsuario}-CPOP-${fecha}.pdf`,
         err => {
           if (err) throw err
           console.log('Nombre Editado Satisfactoriamente')
 
           let obj = {
             ciCliente: ciCliente,
-            user: user,
+            user: codigoUsuario,
             autorizacion: autorizacion
           }
           let listadoPorHacer = []
@@ -330,11 +332,58 @@ app.post('/cpop/', cors(), (req, res) => {
           exec('node test_image/quicktest.js', (error, stdout, stderr) => {
             if (error) {
               console.error(`exec error: ${error}`)
+              res.send('Error al cambiar formato pdf a png CPOP')
               return
             }
-            console.log(`stdout: ${stdout}`)
-            console.error(`stderr: ${stderr}`)
-            res.send('POST REQUEST RECEIVED') //request post
+            
+            image2base64(`${config.url}/test_image/image/${ciCliente}-${codigoUsuario}-CPOP-${fecha}.png`)
+              .then(responseBase64 => {
+                axios
+                  .post(
+                    config.urlImage,
+                    qs.stringify({
+                      img: responseBase64
+                    })
+                  )
+                  .then(function(response) {
+                    console.log(response)
+                    let dato = response.data.data.prediction
+                    let cumplimientoCIC = finderCPOP(dato)
+                    let obj = finderCPOP(dato)
+                    console.log('Autorización:', cumplimientoCIC, obj) 
+                    
+                    // imagenes
+                    let imageNames = `${ciCliente}-${codigoUsuario}`
+
+                    // data CIC
+                    let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
+                    let base64CPOP = responseBase64
+
+                    exec(
+                      `move test_image\\image\\${imageNames}-CPOP-${fecha}.png ${config.rutaFisa}\\${ruta}`,
+                      (error, stdout, stderr) => {
+                        if (error) {
+                          console.error(`exec error: ${error}`)
+                          res.send({
+                            Resultado: 'Archivo no encontrado para mover a la ruta.',
+                            Correcto: false
+                          })
+                          return
+                        }
+                        console.log(`stdout: ${stdout}`)
+                        console.error(`stderr: ${stderr}`)
+                        res.send({
+                          fecha,
+                          imageNameCPOP,
+                          base64CPOP,
+                          cumplimientoCIC,
+                          Resultado: 'Consulta CIC finalizadaa correctamente.',
+                          Correcto: true
+                        }) //request post
+                      }) //request post
+                    })
+                  }
+                )
           })
         }
       )
