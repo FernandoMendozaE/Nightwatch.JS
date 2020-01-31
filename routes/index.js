@@ -38,8 +38,8 @@ app.post('/user/', cors(), (req, res) => {
   let user = (req.body.user).toLowerCase()
   let password = req.body.password
   let _ciCliente = req.body.ciCliente.trim()
-  let arrayCliente = _ciCliente.split('  ')
-  let ciCliente = arrayCliente[0] + arrayCliente[1]
+  // let arrayCliente = _ciCliente.split(' ').join('')
+  let ciCliente =  _ciCliente.split(' ').join('')
   // let ciCliente = req.body.ciCliente + `LP`
   // let ciCliente = '4262302LP'
   let codigoUsuario = req.body.codigoUsuario
@@ -465,6 +465,6 @@ app.post('/cpop/', cors(), (req, res) => {
   )
 })
 
-app.listen(5000, () => {
-  console.log('Serve on port 5000')
+app.listen(7000, () => {
+  console.log('Serve on port 7000')
 }) //levantar el servicio
