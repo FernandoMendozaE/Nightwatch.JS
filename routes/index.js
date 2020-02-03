@@ -110,33 +110,17 @@ app.post('/cic', cors(), (req, res) => {
                     let dirCIC = finderCIC(dato).carteraDIR
                     let base64CIC = responseBase64
 
-                    exec(
-                      `move test_image\\image\\${imageNames}-CIC-${fecha}.png ${config.rutaFisa}\\${ruta}`,
-                      (error, stdout, stderr) => {
-                        if (error) {
-                          console.error(`exec error: ${error}`)
-                          res.send({
-                            Resultado:
-                              'Archivo no encontrado para mover a la ruta.',
-                            Correcto: false
-                          })
-                          return
-                        }
-                        console.log(`stdout: ${stdout}`)
-                        console.error(`stderr: ${stderr}`)
-
-                        res.send({
-                          imageNameCIC,
-                          base64CIC,
-                          dirCIC,
-                          autorizacion,
-                          fecha,
-                          Resultado: 'Consulta CIC finalizadaa correctamente.',
-                          Correcto: true,
-                          Tipo: 'cic'
-                        })
-                      }
-                    )
+                    res.send({
+                      imageNameCIC,
+                      base64CIC,
+                      dirCIC,
+                      autorizacion,
+                      fecha,
+                      Resultado: 'Consulta CIC finalizadaa correctamente.',
+                      Correcto: true,
+                      Tipo: 'cic'
+                    })
+                    return
                   })
                   .catch(function(error) {
                     console.log(error)
@@ -236,31 +220,16 @@ app.post('/cpop/', cors(), (req, res) => {
                   let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
                   let base64CPOP = responseBase64
 
-                  exec(
-                    `move test_image\\image\\${imageNames}-CPOP-${fecha}.png ${config.rutaFisa}\\${ruta}`,
-                    (error, stdout, stderr) => {
-                      if (error) {
-                        console.error(`exec error: ${error}`)
-                        res.send({
-                          Resultado:
-                            'Archivo no encontrado para mover a la ruta.',
-                          Correcto: false
-                        })
-                        return
-                      }
-                      console.log(`stdout: ${stdout}`)
-                      console.error(`stderr: ${stderr}`)
-                      res.send({
-                        fecha,
-                        imageNameCPOP,
-                        base64CPOP,
-                        cumplimientoCIC,
-                        Resultado: 'Consulta CIC finalizadaa correctamente.',
-                        Correcto: true,
-                        Tipo: 'cpop'
-                      }) //request post
-                    }
-                  ) //request post
+                  res.send({
+                    fecha,
+                    imageNameCPOP,
+                    base64CPOP,
+                    cumplimientoCIC,
+                    Resultado: 'Consulta CIC finalizadaa correctamente.',
+                    Correcto: true,
+                    Tipo: 'cpop'
+                  }) //request post
+                  return
                 })
             })
           })
