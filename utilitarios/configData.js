@@ -8,5 +8,6 @@ const time = '2000'
 // let rutaFisa = `c:\\inetpub\\wwwroot\\FroddiIdepro\\Aplicacion\\recursos` // Servidor idepro
 // let rutaFisa = `c:\\sistemas\\FroddiUsuario\\public\\recursos` //Maquina Fer
 let rutaFisa = `c:\\inetpub\\wwwroot\\FroddiIdepro\\Aplicacion\\recursos` // Servidor idepro
+let port = '7000'
 
-module.exports = { url, urlImage, time, rutaFisa }
+module.exports = { url, urlImage, time, rutaFisa, port }

@@ -239,6 +239,6 @@ app.post('/cpop/', cors(), (req, res) => {
   )
 })
 
-app.listen(5000, () => {
-  console.log('Serve on port 5000')
+app.listen(config.port, () => {
+  console.log(`Serve on port ${config.port}`)
 }) //levantar el servicio
