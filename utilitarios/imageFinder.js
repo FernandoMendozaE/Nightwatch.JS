@@ -112,19 +112,14 @@ function finderCIC(dato = '') {
 }
 
 function finderCPOP(dato = '') {
-  let separador = 'DOC. '
-  let arregloDeSubCadenas = dato.split(separador)
-
-  let arrayDato = arregloDeSubCadenas[1].split(' ')
+  dato = dato.replace(/\n/g, ' ')
+  let array = dato.split(/ NO /)
+  console.log('array :', array)
   let cumple
-  if (arrayDato[2] !== 'Si' && arrayDato[2] !== 'NO') {
-    if (arrayDato[1] !== 'Si' && arrayDato[1] !== 'NO') {
-      cumple = arrayDato[3]
-    } else {
-      cumple = arrayDato[1]
-    }
+  if (array.length === 1 ) {
+    cumple = 'SI'
   } else {
-    cumple = arrayDato[2]
+    cumple = 'NO'
   }
   return cumple
 }
