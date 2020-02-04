@@ -77,7 +77,7 @@ app.post('/cic', cors(), (req, res) => {
           fs.writeFile('file/data.json', data, err => {
             if (err) throw new Error('No se puedo grabar', err)
           })
-
+          console.log('MODIFICACION CARPETA')
           exec('node test_image/quicktest.js', (error, stdout, stderr) => {
             if (error) {
               console.error(`exec error: ${error}`)
