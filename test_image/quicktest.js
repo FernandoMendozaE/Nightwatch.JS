@@ -9,7 +9,7 @@ console.log('listadoPorHacer!!!!!!!!!!!!', ciCliente, ciCliente)
 
 var projectPath = __dirname.split('\\')
 
-// console.log('__dirname', __dirname);
+console.log('__dirname', __dirname)
 projectPath.pop()
 projectPath = projectPath.join('\\')
 
@@ -22,42 +22,57 @@ pdf2png.ghostscriptPath = gsPath
 var f = new Date()
 let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
 
-
 // Example with higher quality
 if (!autorizacion) {
-  pdf2png.convert(__dirname + `/pdf/${ciCliente}-${user}-CIC-${fecha}.pdf`, { quality: 200 }, function(resp) {
-    if (!resp.success) {
-      console.log('Something went wrong: ' + resp.error)
-  
-      return
-    }
-  
-    console.log("Yayy the pdf got converted, now I'm gonna save it!")
-  
-    fs.writeFile(`test_image/image/${ciCliente}-${user}-CIC-${fecha}.png`, resp.data, function(err) {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log('The file was saved!')
+  pdf2png.convert(
+    __dirname + `/pdf/${ciCliente}-${user}-CIC-${fecha}.pdf`,
+    { quality: 200 },
+    function(resp) {
+      if (!resp.success) {
+        console.log('Something went wrong: ' + resp.error)
+
+        return
       }
-    })
-  })
+
+      console.log("Yayy the pdf got converted, now I'm gonna save it!")
+
+      fs.writeFile(
+        `test_image/image/${ciCliente}-${user}-CIC-${fecha}.png`,
+        resp.data,
+        function(err) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('The file was saved!')
+          }
+        }
+      )
+    }
+  )
 } else {
-  pdf2png.convert(__dirname + `/pdf/${ciCliente}-${user}-CPOP-${fecha}.pdf`, { quality: 200 }, function(resp) {
-    if (!resp.success) {
-      console.log('Something went wrong: ' + resp.error)
-  
-      return
-    }
-  
-    console.log("Yayy the pdf got converted, now I'm gonna save it!")
-  
-    fs.writeFile(`test_image/image/${ciCliente}-${user}-CPOP-${fecha}.png`, resp.data, function(err) {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log('The file was saved!')
+  pdf2png.convert(
+    __dirname + `/pdf/${ciCliente}-${user}-CPOP-${fecha}.pdf`,
+    { quality: 200 },
+    function(resp) {
+      if (!resp.success) {
+        console.log('Something went wrong: ' + resp.error)
+
+        return
       }
-    })
-  })
+
+      console.log("Yayy the pdf got converted, now I'm gonna save it!")
+
+      fs.writeFile(
+        `test_image/image/${ciCliente}-${user}-CPOP-${fecha}.png`,
+        resp.data,
+        function(err) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('The file was saved!')
+          }
+        }
+      )
+    }
+  )
 }
