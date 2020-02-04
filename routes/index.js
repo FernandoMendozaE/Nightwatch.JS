@@ -135,6 +135,7 @@ app.post('/cic', cors(), (req, res) => {
                           Correcto: true,
                           Tipo: 'cic'
                         })
+                        return
                       }
                     )
                   })
@@ -259,6 +260,7 @@ app.post('/cpop/', cors(), (req, res) => {
                         Correcto: true,
                         Tipo: 'cpop'
                       }) //request post
+                      return
                     }
                   ) //request post
                 })
@@ -270,6 +272,6 @@ app.post('/cpop/', cors(), (req, res) => {
   )
 })
 
-app.listen(5000, () => {
-  console.log('Serve on port 5000')
+app.listen(7000, () => {
+  console.log('Serve on port 7000')
 }) //levantar el servicio
