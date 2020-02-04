@@ -14,7 +14,7 @@
         "chromeOptions": {
           "args": [
             "start-maximized",
-            "user-data-dir=/home/linuxlite/wwww/robotizacion/Nightwatch.JS/chrome/robot"
+            "user-data-dir=/home/idepro/ServicioLinuxRobot/chrome/robot"
           ],
           "extensions": []
         }
