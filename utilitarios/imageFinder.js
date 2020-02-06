@@ -2,18 +2,14 @@ function finderCIC(dato = '') {
   let data = {}
   let separador = '\n' // un espacio en blanco
   let arregloDeSubCadenas = dato.split(separador)
-  // console.log('arregloDeSubCadenas', arregloDeSubCadenas)
   let arrayAutorizacion = arregloDeSubCadenas[0].split(' ')
-  console.log('arrayAutorizacion!!!!!!!!', arrayAutorizacion)
   let autorizacion = arrayAutorizacion[9]
     ? arrayAutorizacion[9]
     : arregloDeSubCadenas[6]
-  // console.log('autorizacion :', autorizacion)
   data['autorizacion'] = autorizacion
 
   let arrayDeuda = arregloDeSubCadenas[4].split(' ')
   let deuda = arrayDeuda[2]
-  // console.log('deuda fecha :', deuda)
   data['deuda'] = deuda
 
   let sw
@@ -30,15 +26,11 @@ function finderCIC(dato = '') {
     }
   }
 
-  // console.log('arrayCarteraDirecta', arrayCarteraDirecta)
   let obj = {}
   for (const i in arrayCarteraDirecta) {
     let arregloFila = arrayCarteraDirecta[i].split(' ')
-    // console.log('arregloFila', arregloFila)
     obj[`${i}`] = arregloFila
   }
-
-  // console.log('obj', obj)
 
   let arrayAlfabeto = []
   for (const key in obj) {
@@ -107,20 +99,32 @@ function finderCIC(dato = '') {
 
   // console.log('CarteraDIR :', CarteraDIR)
   data['carteraDIR'] = CarteraDIR
+  console.log('carteraDIR: ', data)
 
   return data
 }
 
 function finderCPOP(dato = '') {
+  // dato = dato.replace(/\n/g, ' ')
+  // let array = dato.split(/ NO /)
+  // console.log('array :', array)
+  // let cumple
+  // if (array.length === 1 ) {
+  //   cumple = 'SI'
+  // } else {
+  //   cumple = 'NO'
+  // }
+  // return cumple
+
   dato = dato.replace(/\n/g, ' ')
   let array = dato.split(/ NO /)
-  console.log('array :', array)
-  let cumple
-  if (array.length === 1 ) {
-    cumple = 'SI'
+  let cumple = ''
+  if (array.length === 1) {
+    cumple = 'Si'
   } else {
-    cumple = 'NO'
+   cumple = 'No'
   }
+  console.log('cumple :', cumple)
   return cumple
 }
 

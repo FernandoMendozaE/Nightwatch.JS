@@ -96,7 +96,7 @@ app.post('/cic', cors(), (req, res) => {
                     })
                   )
                   .then(function(response) {
-                    console.log(response)
+                    // console.log(response)
                     let dato = response.data.data.prediction
                     let autorizacion = finderCIC(dato).autorizacion
                     let obj = finderCIC(dato)
@@ -224,10 +224,9 @@ app.post('/cpop/', cors(), (req, res) => {
                   })
                 )
                 .then(function(response) {
-                  console.log(response)
+                  // console.log(response)
                   let dato = response.data.data.prediction
                   let cumplimientoCIC = finderCPOP(dato)
-                  let obj = finderCPOP(dato)
                   console.log('Autorización:', cumplimientoCIC, obj)
 
                   // imagenes
