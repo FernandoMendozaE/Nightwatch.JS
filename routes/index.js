@@ -3,7 +3,7 @@
  */
 
 const express = require('express')
-const app = express() //obtiene el objeto express
+const app = express()
 const { exec } = require('child_process')
 const fs = require('fs')
 var cors = require('cors')
@@ -13,24 +13,17 @@ const qs = require('qs')
 const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
 const { finderCIC, finderCPOP } = require('../utilitarios/imageFinder')
-
-// app.use(express.json()) // linea de código encargado de hacer conocer el formato JSON
-
 let bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '100MB' }))
 app.use(bodyParser.urlencoded({ limit: '100MB', extended: true }))
 
-// app.all('/cic', (req, res, next) => {
-//   console.log('Por aqui paso')
-//   next()
-// }) // método express encargado de pasen toda las ruras (/user)
 
 app.get('/user', (req, res) => {
   res.json({
     username: 'Cameron',
     lastname: 'Howe'
-  }) //responde la petición
-}) //recibe una peticion HTTP(get) y realiza algo
+  }) 
+})
 
 // Creación de Router CIC
 app.post('/cic', cors(), (req, res) => {
@@ -41,8 +34,6 @@ app.post('/cic', cors(), (req, res) => {
   let ciCliente = _ciCliente.split(' ').join('')
   let codigoUsuario = req.body.codigoUsuario
   let ruta = req.body.ruta
-  // let ciCliente = req.body.ciCliente + `LP`
-  // let ciCliente = '4262302LP'
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
   password = bytes.toString(CryptoJS.enc.Utf8)
 
@@ -96,16 +87,11 @@ app.post('/cic', cors(), (req, res) => {
                     })
                   )
                   .then(function(response) {
-                    // console.log(response)
                     let dato = response.data.data.prediction
                     let autorizacion = finderCIC(dato).autorizacion
                     let obj = finderCIC(dato)
                     console.log('Autorización:', autorizacion, obj)
-
-                    // imagenes
                     let imageNames = `${ciCliente}-${codigoUsuario}`
-
-                    // data CIC
                     let imageNameCIC = `${imageNames}-CIC-${fecha}`
                     let dirCIC = finderCIC(dato).carteraDIR
                     let base64CIC = responseBase64
@@ -141,11 +127,11 @@ app.post('/cic', cors(), (req, res) => {
                   })
                   .catch(function(error) {
                     console.log(error)
-                    res.send('Error al servivio reconociemnto de imagenes') //request post
+                    res.send('Error al servivio reconociemnto de imagenes')
                   })
               })
               .catch(error => {
-                console.log(error) //Exepection error....
+                console.log(error)
                 res.send('Error al convertir png a base64')
               })
           })
@@ -162,8 +148,6 @@ app.post('/cpop/', cors(), (req, res) => {
   let password = req.body.password
   let _ciCliente = req.body.ciCliente.trim()
   let ciCliente = _ciCliente.split(' ').join('')
-  // let ciCliente = req.body.ciCliente + `LP`
-  // let ciCliente = '4262302LP'
   let codigoUsuario = req.body.codigoUsuario
   let ruta = req.body.ruta
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
@@ -224,15 +208,10 @@ app.post('/cpop/', cors(), (req, res) => {
                   })
                 )
                 .then(function(response) {
-                  // console.log(response)
                   let dato = response.data.data.prediction
                   let cumplimientoCIC = finderCPOP(dato)
                   console.log('Autorización:', cumplimientoCIC, obj)
-
-                  // imagenes
                   let imageNames = `${ciCliente}-${codigoUsuario}`
-
-                  // data CIC
                   let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
                   let base64CPOP = responseBase64
 
@@ -258,10 +237,10 @@ app.post('/cpop/', cors(), (req, res) => {
                         Resultado: 'Consulta CIC finalizadaa correctamente.',
                         Correcto: true,
                         Tipo: 'cpop'
-                      }) //request post
+                      })
                       return
                     }
-                  ) //request post
+                  )
                 })
             })
           })
@@ -273,4 +252,4 @@ app.post('/cpop/', cors(), (req, res) => {
 
 app.listen(7000, () => {
   console.log('Serve on port 7000')
-}) //levantar el servicio
+})

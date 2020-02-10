@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 node_modules
 tests_output
 *.log
@@ -7,13 +6,3 @@ vrt/diff
 vrt/latest
 files/*.pdf
 chrome/robot/
-=======
-node_modules
-tests_output
-*.log
-.env
-vrt/diff
-vrt/latest
-files/*.pdf
-chrome/robot/
->>>>>>> dnsia

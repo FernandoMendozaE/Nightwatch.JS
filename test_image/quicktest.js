@@ -8,8 +8,6 @@ let autorizacion = listadoPorHacer[0]['autorizacion']
 console.log('listadoPorHacer!!!!!!!!!!!!', ciCliente, ciCliente)
 
 var projectPath = __dirname.split('\\')
-
-// console.log('__dirname', __dirname);
 projectPath.pop()
 projectPath = projectPath.join('\\')
 

@@ -4,12 +4,6 @@ module.exports = {
   "@tags": ["idepro"],
   "CIC advanced search: Reporte"(browser) {
 
-    // let user = process.env.npm_config_varUser
-    // let password = process.env.npm_config_varPassword
-    // let clienteCI = process.env.npm_config_varclienteCI
-    // console.log('data', user, password, clienteCI)
-
-
     const mainUser = process.env.npm_config_varUser;
     const mainPassword = process.env.npm_config_varPassword;
 
@@ -20,14 +14,6 @@ module.exports = {
     const submitButtonConsultaCod = 'a[href="ConsultasDefault.aspx?opPag=1"]';
 
     const mainCodIdentidad = process.env.npm_config_varclienteCI; 
-    // const mainCodIdentidad = "2487231LP"; //SinCheck
-    // const mainCodIdentidad = "25856301DLP"; //Check1 Correcto
-    // const mainCodIdentidad = "2585630LP"; //Check1
-
-    // const mainCodIdentidad = '2154399LP'; //Check2
-    // const mainCodIdentidad = '6983244LP'; //Check3
-    // const mainCodIdentidad = "2349639LP"; //Check4
-    // const mainCodIdentidad = "6111211LP"; //Desconocido
 
     const mainQueryInputCodIdentidad =
       'input[name="ctl00$ctl00$IFMainContent$DefaultContent$txtIdentificacion"]';
@@ -69,11 +55,7 @@ module.exports = {
       .click(submitButtonSelector)
       .click(submitButtonConsultaCod)
       .setValue(mainQueryInputCodIdentidad, mainCodIdentidad)
-      // .pause(1000)
-
       .click(submitButtonConsultar)
-
-      // checks
       .pause(`${config.time}`);
     browser.element("css selector", checkOp1, function(result) {
       if (result.status != -1) {
@@ -249,8 +231,6 @@ module.exports = {
         //Element exists, do something
       } else {
         browser
-          // .pause(8000)
-          // .click(resultado)
           .pause(5000)
           .end();
         //Element does not exist, do something else

@@ -14,14 +14,6 @@ module.exports = {
       const mainQueryInputAutori = 'input[name="ctl00$ctl00$IFMainContent$DefaultContent$txtNumeroAutorizacion"]';
       const mainIdentidad = process.env.npm_config_varClienteCI;
       const mainAutorizacion = process.env.npm_config_varAutorizacion;
-
-      // const mainCodIdentidad = "2487231LP"; //SinCheck
-      // const mainCodIdentidad = "25856301DLP"; //Check1 Correcto
-      // const mainCodIdentidad = "2585630LP"; //Check1
-  
-      // const mainCodIdentidad = '2154399LP'; //Check2
-      // const mainCodIdentidad = '6983244LP'; //Check3
-      // const mainCodIdentidad = "2349639LP"; //Check4
       const submitButtonConsultar =
         '#IFMainContent_DefaultContent_pnlConsultaIndividual input[type="submit"]';
   

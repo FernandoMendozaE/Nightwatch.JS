@@ -18,9 +18,6 @@ function finderCIC(dato = '') {
     if (arregloDeSubCadenas[i] === 'Cartera Directa:') {
       sw = true
     }
-    // if (arregloDeSubCadenas[i] === 'Cartera Indirecta:') {
-    //   sw = false
-    // }
     if (sw && arregloDeSubCadenas[i] !== ' ') {
       arrayCarteraDirecta.push(arregloDeSubCadenas[i])
     }
@@ -35,9 +32,7 @@ function finderCIC(dato = '') {
   let arrayAlfabeto = []
   for (const key in obj) {
     const element = obj[key]
-    // console.log('element', element)
     let tipoCartera = element[2]
-    // console.log('tipoCartera', tipoCartera)
     switch (tipoCartera) {
       case 'A':
         arrayAlfabeto.push(1)
@@ -62,8 +57,6 @@ function finderCIC(dato = '') {
         break
     }
   }
-
-  // console.log('arrayAlfabeto', arrayAlfabeto)
 
   let may = 0
   for (const i in arrayAlfabeto) {
@@ -97,7 +90,6 @@ function finderCIC(dato = '') {
       break
   }
 
-  // console.log('CarteraDIR :', CarteraDIR)
   data['carteraDIR'] = CarteraDIR
   console.log('carteraDIR: ', data)
 
