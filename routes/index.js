@@ -36,15 +36,9 @@ app.post('/user/', cors(), (req, res) => {
   let ruta = req.body.ruta
   let ciCliente = req.body.ciCliente
   let password = req.body.password
-<<<<<<< HEAD
   // let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
   // password = bytes.toString(CryptoJS.enc.Utf8)
   console.log('Datos:', user, ciCliente, password)
-=======
-  let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
-  password = bytes.toString(CryptoJS.enc.Utf8)
-  console.log('Datos:', user, ciCliente, password, codigoUsuario)
->>>>>>> 64a200b4b3ac99ce2a8154e463c7b0a57421dfd2
 
   exec(
     `npm --varUser=${user} --varPassword=${password} --varclienteCI=${ciCliente} test -- --tag dnsia`,
@@ -143,33 +137,6 @@ app.post('/user/', cors(), (req, res) => {
   // console.log(req.params); //obtiene  datos del id (url) parametros
 })
 
-<<<<<<< HEAD
-=======
-app.post('/buscar/', cors(), (req, res) => {
-  console.log(req.body)
-  let codigoUsuario = req.body.codigoUsuario
-  let ciCliente = req.body.ciCliente
-  let IdClienteActual = req.body.IdClienteActual
-  console.log('Datos:', codigoUsuario, ciCliente, IdClienteActual)
-
-  let ruta = `c:\\sistemas\\FroddiUsuario\\public\\recursos\\${IdClienteActual}`
-  exec(
-    `move test_image\\image\\86fb0205-c7a6-4a44-baff-9482d0470fda-rponce-*.png ${ruta}`,
-    (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`)
-        return
-      }
-      console.log(`stdout: ${stdout}`)
-      console.error(`stderr: ${stderr}`)
-      res.send('Busqueda exitosa')
-    }
-  )
-
-  // console.log(req.params); //obtiene  datos del id (url) parametros
-})
-
->>>>>>> 64a200b4b3ac99ce2a8154e463c7b0a57421dfd2
 app.listen(5000, () => {
   console.log('Serve on port 5000')
 }) //levantar el servicio
