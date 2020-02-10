@@ -14,23 +14,16 @@ const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
 const { finderCIC, finderCPOP } = require('../utilitarios/imageFinder')
 
-// app.use(express.json()) // linea de código encargado de hacer conocer el formato JSON
-
 let bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '100MB' }))
 app.use(bodyParser.urlencoded({ limit: '100MB', extended: true }))
-
-// app.all('/cic', (req, res, next) => {
-//   console.log('Por aqui paso')
-//   next()
-// }) // método express encargado de pasen toda las ruras (/user)
 
 app.get('/user', (req, res) => {
   res.json({
     username: 'Cameron',
     lastname: 'Howe'
-  }) //responde la petición
-}) //recibe una peticion HTTP(get) y realiza algo
+  })
+})
 
 // Creación de Router CIC
 app.post('/cic', cors(), (req, res) => {
@@ -41,8 +34,6 @@ app.post('/cic', cors(), (req, res) => {
   let ciCliente = _ciCliente.split(' ').join('')
   let codigoUsuario = req.body.codigoUsuario
   let ruta = req.body.ruta
-  // let ciCliente = req.body.ciCliente + `LP`
-  // let ciCliente = '4262302LP'
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
   password = bytes.toString(CryptoJS.enc.Utf8)
 
@@ -101,11 +92,7 @@ app.post('/cic', cors(), (req, res) => {
                     let autorizacion = finderCIC(dato).autorizacion
                     let obj = finderCIC(dato)
                     console.log('Autorización:', autorizacion, obj)
-
-                    // imagenes
                     let imageNames = `${ciCliente}-${codigoUsuario}`
-
-                    // data CIC
                     let imageNameCIC = `${imageNames}-CIC-${fecha}`
                     let dirCIC = finderCIC(dato).carteraDIR
                     let base64CIC = responseBase64
@@ -145,8 +132,6 @@ app.post('/cpop/', cors(), (req, res) => {
   let password = req.body.password
   let _ciCliente = req.body.ciCliente.trim()
   let ciCliente = _ciCliente.split(' ').join('')
-  // let ciCliente = req.body.ciCliente + `LP`
-  // let ciCliente = '4262302LP'
   let codigoUsuario = req.body.codigoUsuario
   let ruta = req.body.ruta
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
@@ -158,8 +143,6 @@ app.post('/cpop/', cors(), (req, res) => {
   let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
 
   console.log('Datos:', user, ciCliente, password)
-
-  // Consulta CPOP
   exec(
     `npm --varUser=${user} --varPassword=${password} --varClienteCI=${ciCliente} --varAutorizacion=${autorizacion} test -- --tag cpop`,
     (error, stdout, stderr) => {
@@ -212,11 +195,7 @@ app.post('/cpop/', cors(), (req, res) => {
                   let cumplimientoCIC = finderCPOP(dato)
                   let obj = finderCPOP(dato)
                   console.log('Autorización:', cumplimientoCIC, obj)
-
-                  // imagenes
                   let imageNames = `${ciCliente}-${codigoUsuario}`
-
-                  // data CIC
                   let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
                   let base64CPOP = responseBase64
 
@@ -228,7 +207,7 @@ app.post('/cpop/', cors(), (req, res) => {
                     Resultado: 'Consulta CIC finalizadaa correctamente.',
                     Correcto: true,
                     Tipo: 'cpop'
-                  }) //request post
+                  })
                   return
                 })
             })
@@ -241,4 +220,4 @@ app.post('/cpop/', cors(), (req, res) => {
 
 app.listen(config.port, () => {
   console.log(`Serve on port ${config.port}`)
-}) //levantar el servicio
+})
