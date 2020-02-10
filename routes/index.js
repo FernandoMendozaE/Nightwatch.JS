@@ -250,6 +250,6 @@ app.post('/cpop/', cors(), (req, res) => {
   )
 })
 
-app.listen(7000, () => {
-  console.log('Serve on port 7000')
+app.listen(config.port, () => {
+  console.log(`Serve on port ${config.port}`)
 })
