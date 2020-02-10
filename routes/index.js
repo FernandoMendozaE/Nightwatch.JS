@@ -17,12 +17,11 @@ let bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '100MB' }))
 app.use(bodyParser.urlencoded({ limit: '100MB', extended: true }))
 
-
 app.get('/user', (req, res) => {
   res.json({
     username: 'Cameron',
     lastname: 'Howe'
-  }) 
+  })
 })
 
 // Creación de Router CIC
@@ -36,7 +35,6 @@ app.post('/cic', cors(), (req, res) => {
   let ruta = req.body.ruta
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
   password = bytes.toString(CryptoJS.enc.Utf8)
-
   console.log('Datos:', user, ciCliente, password)
 
   // Fecha
@@ -159,8 +157,6 @@ app.post('/cpop/', cors(), (req, res) => {
   let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
 
   console.log('Datos:', user, ciCliente, password)
-
-  // Consulta CPOP
   exec(
     `npm --varUser=${user} --varPassword=${password} --varClienteCI=${ciCliente} --varAutorizacion=${autorizacion} test -- --tag cpop`,
     (error, stdout, stderr) => {
