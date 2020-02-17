@@ -3,7 +3,7 @@
  */
 
 const express = require('express')
-const app = express()
+const app = express() //obtiene el objeto express
 const { exec } = require('child_process')
 const fs = require('fs')
 var cors = require('cors')
@@ -13,6 +13,7 @@ const qs = require('qs')
 const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
 const { finderCIC, finderCPOP } = require('../utilitarios/imageFinder')
+
 let bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '100MB' }))
 app.use(bodyParser.urlencoded({ limit: '100MB', extended: true }))
@@ -33,8 +34,9 @@ app.post('/cic', cors(), (req, res) => {
   let ciCliente = _ciCliente.split(' ').join('')
   let codigoUsuario = req.body.codigoUsuario
   let ruta = req.body.ruta
-  let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
-  password = bytes.toString(CryptoJS.enc.Utf8)
+  // let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
+  // password = bytes.toString(CryptoJS.enc.Utf8)
+
   console.log('Datos:', user, ciCliente, password)
 
   // Fecha
@@ -66,7 +68,7 @@ app.post('/cic', cors(), (req, res) => {
           fs.writeFile('file/data.json', data, err => {
             if (err) throw new Error('No se puedo grabar', err)
           })
-
+          console.log('MODIFICACION CARPETA')
           exec('node test_image/quicktest.js', (error, stdout, stderr) => {
             if (error) {
               console.error(`exec error: ${error}`)
@@ -85,6 +87,7 @@ app.post('/cic', cors(), (req, res) => {
                     })
                   )
                   .then(function(response) {
+                    console.log(response)
                     let dato = response.data.data.prediction
                     let autorizacion = finderCIC(dato).autorizacion
                     let obj = finderCIC(dato)
@@ -94,42 +97,25 @@ app.post('/cic', cors(), (req, res) => {
                     let dirCIC = finderCIC(dato).carteraDIR
                     let base64CIC = responseBase64
 
-                    exec(
-                      `move test_image\\image\\${imageNames}-CIC-${fecha}.png ${config.rutaFisa}\\${ruta}`,
-                      (error, stdout, stderr) => {
-                        if (error) {
-                          console.error(`exec error: ${error}`)
-                          res.send({
-                            Resultado:
-                              'Archivo no encontrado para mover a la ruta.',
-                            Correcto: false
-                          })
-                          return
-                        }
-                        console.log(`stdout: ${stdout}`)
-                        console.error(`stderr: ${stderr}`)
-
-                        res.send({
-                          imageNameCIC,
-                          base64CIC,
-                          dirCIC,
-                          autorizacion,
-                          fecha,
-                          Resultado: 'Consulta CIC finalizadaa correctamente.',
-                          Correcto: true,
-                          Tipo: 'cic'
-                        })
-                        return
-                      }
-                    )
+                    res.send({
+                      imageNameCIC,
+                      base64CIC,
+                      dirCIC,
+                      autorizacion,
+                      fecha,
+                      Resultado: 'Consulta CIC finalizadaa correctamente.',
+                      Correcto: true,
+                      Tipo: 'cic'
+                    })
+                    return
                   })
                   .catch(function(error) {
                     console.log(error)
-                    res.send('Error al servivio reconociemnto de imagenes')
+                    res.send('Error al servivio reconociemnto de imagenes') //request post
                   })
               })
               .catch(error => {
-                console.log(error)
+                console.log(error) //Exepection error....
                 res.send('Error al convertir png a base64')
               })
           })
@@ -204,39 +190,25 @@ app.post('/cpop/', cors(), (req, res) => {
                   })
                 )
                 .then(function(response) {
+                  console.log(response)
                   let dato = response.data.data.prediction
                   let cumplimientoCIC = finderCPOP(dato)
+                  let obj = finderCPOP(dato)
                   console.log('Autorización:', cumplimientoCIC, obj)
                   let imageNames = `${ciCliente}-${codigoUsuario}`
                   let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
                   let base64CPOP = responseBase64
 
-                  exec(
-                    `move test_image\\image\\${imageNames}-CPOP-${fecha}.png ${config.rutaFisa}\\${ruta}`,
-                    (error, stdout, stderr) => {
-                      if (error) {
-                        console.error(`exec error: ${error}`)
-                        res.send({
-                          Resultado:
-                            'Archivo no encontrado para mover a la ruta.',
-                          Correcto: false
-                        })
-                        return
-                      }
-                      console.log(`stdout: ${stdout}`)
-                      console.error(`stderr: ${stderr}`)
-                      res.send({
-                        fecha,
-                        imageNameCPOP,
-                        base64CPOP,
-                        cumplimientoCIC,
-                        Resultado: 'Consulta CIC finalizadaa correctamente.',
-                        Correcto: true,
-                        Tipo: 'cpop'
-                      })
-                      return
-                    }
-                  )
+                  res.send({
+                    fecha,
+                    imageNameCPOP,
+                    base64CPOP,
+                    cumplimientoCIC,
+                    Resultado: 'Consulta CIC finalizadaa correctamente.',
+                    Correcto: true,
+                    Tipo: 'cpop'
+                  })
+                  return
                 })
             })
           })
