@@ -13,6 +13,7 @@ const qs = require('qs')
 const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
 const { finderCIC, finderCPOP } = require('../utilitarios/imageFinder')
+const { cic } = require('../utilitarios/dataServidor.json')
 let bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '100MB' }))
 app.use(bodyParser.urlencoded({ limit: '100MB', extended: true }))
@@ -254,11 +255,9 @@ app.post('/servidor/:tipo', cors(), (req, res) => {
   let _ciCliente = req.body.ciCliente.trim()
   let ciCliente = _ciCliente.split(' ').join('')
   let codigoUsuario = req.body.codigoUsuario
-  let ruta = req.body.ruta
-  let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
   // password = bytes.toString(CryptoJS.enc.Utf8)
   console.log('Datos:', user, ciCliente, password)
-
+  console.log('tipo', req.params.tipo)
   // Fecha
   var f = new Date()
   let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
@@ -266,18 +265,18 @@ app.post('/servidor/:tipo', cors(), (req, res) => {
   //   let imageNameCIC = `${imageNames}-CIC-${fecha}`
   // } else {
   // }
-
+  let imageNames = `${ciCliente}-${codigoUsuario}`
   let imageNameCIC = `${imageNames}-CIC-${fecha}`
 
   res.send({
     imageNameCIC,
-    base64CIC,
-    dirCIC,
-    autorizacion,
     fecha,
-    Resultado: 'Consulta CIC finalizadaa correctamente.',
-    Correcto: true,
-    Tipo: 'cic'
+    base64CIC: cic[0].base64CIC,
+    dirCIC: cic[0].dirCIC,
+    autorizacion: cic[0].autorizacion,
+    Tipo: cic[0].Tipo,
+    Resultado: cic[0].Resultado,
+    Correcto: true
   })
 })
 
