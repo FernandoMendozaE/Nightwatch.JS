@@ -246,6 +246,41 @@ app.post('/cpop/', cors(), (req, res) => {
   )
 })
 
+// Creación de Router Servidor
+app.post('/servidor/:tipo', cors(), (req, res) => {
+  console.log(req.body)
+  let user = req.body.user.toLowerCase()
+  let password = req.body.password
+  let _ciCliente = req.body.ciCliente.trim()
+  let ciCliente = _ciCliente.split(' ').join('')
+  let codigoUsuario = req.body.codigoUsuario
+  let ruta = req.body.ruta
+  let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
+  // password = bytes.toString(CryptoJS.enc.Utf8)
+  console.log('Datos:', user, ciCliente, password)
+
+  // Fecha
+  var f = new Date()
+  let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
+  // if (req.params.tipo === 'cic') {
+  //   let imageNameCIC = `${imageNames}-CIC-${fecha}`
+  // } else {
+  // }
+
+  let imageNameCIC = `${imageNames}-CIC-${fecha}`
+
+  res.send({
+    imageNameCIC,
+    base64CIC,
+    dirCIC,
+    autorizacion,
+    fecha,
+    Resultado: 'Consulta CIC finalizadaa correctamente.',
+    Correcto: true,
+    Tipo: 'cic'
+  })
+})
+
 app.listen(config.port, () => {
   console.log(`Serve on port ${config.port}`)
 })
