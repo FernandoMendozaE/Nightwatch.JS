@@ -274,7 +274,8 @@ app.post('/servidor/:tipo', cors(), (req, res) => {
     base64CIC: cic[0].base64CIC,
     dirCIC: cic[0].dirCIC,
     autorizacion: cic[0].autorizacion,
-    Tipo: cic[0].Tipo,
+    tipoRobotizacion: cic[0].tipoRobotizacion,
+    Tipo: cic[0].NombreRobotizacion,
     Resultado: cic[0].Resultado,
     Correcto: true
   })
