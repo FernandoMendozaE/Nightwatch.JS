@@ -249,36 +249,38 @@ app.post('/cpop/', cors(), (req, res) => {
 
 // Creación de Router Servidor
 app.post('/servidor/:tipo', cors(), (req, res) => {
-  console.log(req.body)
-  let user = req.body.user.toLowerCase()
-  let password = req.body.password
-  let _ciCliente = req.body.ciCliente.trim()
-  let ciCliente = _ciCliente.split(' ').join('')
-  let codigoUsuario = req.body.codigoUsuario
-  // password = bytes.toString(CryptoJS.enc.Utf8)
-  console.log('Datos:', user, ciCliente, password)
-  console.log('tipo', req.params.tipo)
-  // Fecha
-  var f = new Date()
-  let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
-  // if (req.params.tipo === 'cic') {
-  //   let imageNameCIC = `${imageNames}-CIC-${fecha}`
-  // } else {
-  // }
-  let imageNames = `${ciCliente}-${codigoUsuario}`
-  let imageNameCIC = `${imageNames}-CIC-${fecha}`
+  setTimeout(() => {
+    console.log(req.body)
+    let user = req.body.user.toLowerCase()
+    let password = req.body.password
+    let _ciCliente = req.body.ciCliente.trim()
+    let ciCliente = _ciCliente.split(' ').join('')
+    let codigoUsuario = req.body.codigoUsuario
+    // password = bytes.toString(CryptoJS.enc.Utf8)
+    console.log('Datos:', user, ciCliente, password)
+    console.log('tipo', req.params.tipo)
+    // Fecha
+    var f = new Date()
+    let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
+    // if (req.params.tipo === 'cic') {
+    //   let imageNameCIC = `${imageNames}-CIC-${fecha}`
+    // } else {
+    // }
+    let imageNames = `${ciCliente}-${codigoUsuario}`
+    let imageNameCIC = `${imageNames}-CIC-${fecha}`
 
-  res.send({
-    imageNameCIC,
-    fecha,
-    base64CIC: cic[0].base64CIC,
-    dirCIC: cic[0].dirCIC,
-    autorizacion: cic[0].autorizacion,
-    tipoRobotizacion: cic[0].tipoRobotizacion,
-    Tipo: cic[0].NombreRobotizacion,
-    Resultado: cic[0].Resultado,
-    Correcto: true
-  })
+    res.send({
+      imageNameCIC,
+      fecha,
+      base64CIC: cic[0].base64CIC,
+      dirCIC: cic[0].dirCIC,
+      autorizacion: cic[0].autorizacion,
+      tipoRobotizacion: cic[0].tipoRobotizacion,
+      Tipo: cic[0].NombreRobotizacion,
+      Resultado: cic[0].Resultado,
+      Correcto: true
+    })
+  }, 20000)
 })
 
 app.listen(config.port, () => {
