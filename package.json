@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nightwatch",
-    "start": "node routes/index.js"
+    "start": "nodemon routes/index.js"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +26,8 @@
     "selenium-server": "^3.141.59",
     "selenium-webdriver": "^4.0.0-alpha.5",
     "tmp": "0.0.23"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }

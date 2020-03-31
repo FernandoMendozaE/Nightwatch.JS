@@ -13,7 +13,7 @@ const qs = require('qs')
 const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
 const { finderCIC, finderCPOP } = require('../utilitarios/imageFinder')
-const { cic } = require('../utilitarios/dataServidor.json')
+const { cic, cpop } = require('../utilitarios/dataServidor.json')
 let bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '100MB' }))
 app.use(bodyParser.urlencoded({ limit: '100MB', extended: true }))
@@ -206,8 +206,8 @@ app.post('/cpop/', cors(), (req, res) => {
                 )
                 .then(function(response) {
                   let dato = response.data.data.prediction
-                  let cumplimientoCIC = finderCPOP(dato)
-                  console.log('Autorización:', cumplimientoCIC, obj)
+                  let cumplimientoCPOP = finderCPOP(dato)
+                  console.log('Autorización:', cumplimientoCPOP, obj)
                   let imageNames = `${ciCliente}-${codigoUsuario}`
                   let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
                   let base64CPOP = responseBase64
@@ -230,8 +230,8 @@ app.post('/cpop/', cors(), (req, res) => {
                         fecha,
                         imageNameCPOP,
                         base64CPOP,
-                        cumplimientoCIC,
-                        Resultado: 'Consulta CIC finalizadaa correctamente.',
+                        cumplimientoCPOP,
+                        Resultado: 'Consulta CPOP finalizadaa correctamente.',
                         Correcto: true,
                         Tipo: 'cpop'
                       })
@@ -262,24 +262,35 @@ app.post('/servidor/:tipo', cors(), (req, res) => {
     // Fecha
     var f = new Date()
     let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
-    // if (req.params.tipo === 'cic') {
-    //   let imageNameCIC = `${imageNames}-CIC-${fecha}`
-    // } else {
-    // }
-    let imageNames = `${ciCliente}-${codigoUsuario}`
-    let imageNameCIC = `${imageNames}-CIC-${fecha}`
+    if (req.params.tipo === 'cic') {
+      let imageNames = `${ciCliente}-${codigoUsuario}`
+      let imageNameCIC = `${imageNames}-CIC-${fecha}`
+      res.send({
+        imageNameCIC,
+        fecha,
+        base64CIC: cic[0].base64CIC,
+        dirCIC: cic[0].dirCIC,
+        autorizacion: cic[0].autorizacion,
+        tipoRobotizacion: cic[0].tipoRobotizacion,
+        Tipo: cic[0].NombreRobotizacion,
+        Resultado: cic[0].Resultado,
+        Correcto: true
+      })
+    } else {
+      let imageNames = `${ciCliente}-${codigoUsuario}`
+      let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
 
-    res.send({
-      imageNameCIC,
-      fecha,
-      base64CIC: cic[0].base64CIC,
-      dirCIC: cic[0].dirCIC,
-      autorizacion: cic[0].autorizacion,
-      tipoRobotizacion: cic[0].tipoRobotizacion,
-      Tipo: cic[0].NombreRobotizacion,
-      Resultado: cic[0].Resultado,
-      Correcto: true
-    })
+      res.send({
+        imageNameCPOP,
+        fecha,
+        base64CPOP: cpop[0].base64CPOP,
+        cumplimientoCPOP: cpop[0].cumplimientoCPOP,
+        tipoRobotizacion: cpop[0].tipoRobotizacion,
+        Tipo: cpop[0].NombreRobotizacion,
+        Resultado: cpop[0].Resultado,
+        Correcto: cpop
+      })
+    }
   }, 20000)
 })
 
