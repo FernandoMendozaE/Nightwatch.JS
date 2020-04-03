@@ -291,7 +291,7 @@ app.post('/servidor/:tipo', cors(), (req, res) => {
         Correcto: cpop
       })
     }
-  }, 20000)
+  }, 100)
 })
 
 app.listen(config.port, () => {
