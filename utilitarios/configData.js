@@ -1,6 +1,6 @@
 // const url = '/home/linuxlite/ProyectosLinux/Node/Nightwatch.JS'
 // const url = 'c:/Users/Lopez/Desktop/Robotizacion/union/Nightwatch.JS' //Windows Freddy
-const url = 'c:/inetpub/wwwroot/FroddiIdepro/ServicioPeticion' //Servidor Idepro
+const url = '/home/froddy/ServiciosFroddy/Robotizacion' //Servidor Idepro
 // const url = 'C:/Users/Desktop/Desktop/Robotizacion/Nightwatch.JS' //Maquina Fer
 const urlImage = 'http://10.17.9.172:4500/reconocimiento/caracter'
 const time = '2000'

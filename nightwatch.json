@@ -13,7 +13,8 @@
         "browserName": "chrome",
         "chromeOptions": {
           "args": [
-            "start-maximized"
+            "start-maximized",
+            "user-data-dir=/home/froddy/ServiciosFroddy/Robotizacion/chrome/robot"
           ],
           "extensions": []
         }
