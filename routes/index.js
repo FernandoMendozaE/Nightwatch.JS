@@ -42,7 +42,7 @@ app.post('/cic', cors(), (req, res) => {
   let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
 
   exec(
-    `npm --varUser=${user} --varPassword=${password} --varclienteCI=${ciCliente} test -- --tag idepro`,
+    `npm --varUser=${user} --varPassword=${password} --varclienteCI=${ciCliente} test -- --tag cic`,
     (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`)
@@ -84,14 +84,14 @@ app.post('/cic', cors(), (req, res) => {
                       img: responseBase64
                     })
                   )
-                  .then(function(response) {
+                  .then(function (response) {
                     let dato = response.data.data.prediction
                     let autorizacion = finderCIC(dato).autorizacion
                     let obj = finderCIC(dato)
                     console.log('Autorización:', autorizacion, obj)
                     let imageNames = `${ciCliente}-${codigoUsuario}`
                     let imageNameCIC = `${imageNames}-CIC-${fecha}`
-                    let dirCIC = finderCIC(dato).carteraDIR
+                    let dirCIC = finderCIC(dato).carteraDIR !== '' ? finderCIC(dato).carteraDIR : 'Sin deudas'
                     let base64CIC = responseBase64
 
                     res.send({
@@ -106,7 +106,7 @@ app.post('/cic', cors(), (req, res) => {
                     })
                     return
                   })
-                  .catch(function(error) {
+                  .catch(function (error) {
                     console.log(error)
                     res.send('Error al servivio reconociemnto de imagenes')
                   })
@@ -186,7 +186,7 @@ app.post('/cpop/', cors(), (req, res) => {
                     img: responseBase64
                   })
                 )
-                .then(function(response) {
+                .then(function (response) {
                   let dato = response.data.data.prediction
                   let cumplimientoCIC = finderCPOP(dato)
                   console.log('Autorización:', cumplimientoCIC, obj)
