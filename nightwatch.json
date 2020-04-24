@@ -14,7 +14,7 @@
         "chromeOptions": {
           "args": [
             "start-maximized",
-            "user-data-dir=/home/idepro/ServiciosIdepro/servicioRobotIdepro"
+            "user-data-dir=/home/idepro/ServiciosIdepro/servicioRobotIdepro/robot"
           ],
           "extensions": []
         }
