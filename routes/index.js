@@ -103,7 +103,7 @@ app.post('/cic', cors(), (req, res) => {
                       autorizacion,
                       fecha,
                       tipoRobotizacion: 'Servicio ASFI-CIC',
-                      Resultado: 'Consulta CIC finalizadaa correctamente.',
+                      Resultado: 'Consulta CIC finalizada correctamente.',
                       Correcto: true,
                       Tipo: 'cic'
                     })
@@ -201,9 +201,9 @@ app.post('/cpop/', cors(), (req, res) => {
                     fecha,
                     imageNameCPOP,
                     base64CPOP,
-                    cumplimientoCIC,
-                    tipoRobotizacion: 'Servicio ASFI-CIC',
-                    Resultado: 'Consulta CIC finalizadaa correctamente.',
+                    cumplimientoCPOP,
+                    tipoRobotizacion: 'Servicio ASFI-CPOP',
+                    Resultado: 'Consulta CIC finalizada correctamente.',
                     Correcto: true,
                     Tipo: 'cpop'
                   })
