@@ -13,7 +13,7 @@ const qs = require('qs')
 const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
 const { finderCIC, finderCPOP } = require('../utilitarios/imageFinder')
-const { cic, cpop } = require('../utilitarios/dataServidor.json')
+const { cic, cpop, cicNit } = require('../utilitarios/dataServidor.json')
 let bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '100MB' }))
 app.use(bodyParser.urlencoded({ limit: '100MB', extended: true }))
@@ -106,6 +106,105 @@ app.post('/cic', cors(), (req, res) => {
                       Resultado: 'Consulta CIC finalizada correctamente.',
                       Correcto: true,
                       Tipo: 'cic'
+                    })
+                    return
+                  })
+                  .catch(function (error) {
+                    console.log(error)
+                    res.send('Error al servivio reconociemnto de imagenes')
+                  })
+              })
+              .catch(error => {
+                console.log(error)
+                res.send('Error al convertir png a base64')
+              })
+          })
+        }
+      )
+    }
+  )
+})
+
+// Creación de Router CIC-NIT
+app.post('/cic-nit', cors(), (req, res) => {
+  console.log(req.body)
+  let user = req.body.user.toLowerCase()
+  let password = req.body.password
+  let ciCliente = req.body.ciCliente
+  let codigoUsuario = req.body.codigoUsuario
+  let ruta = req.body.ruta
+  let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
+  // password = bytes.toString(CryptoJS.enc.Utf8)
+  console.log('Datos:', user, ciCliente, password)
+
+  // Fecha
+  var f = new Date()
+  let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
+
+  exec(
+    `npm --varUser=${user} --varPassword=${password} --varclienteCI=${ciCliente} test -- --tag cic`,
+    (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`)
+        res.send('Error al consultar CIC')
+        return
+      }
+      fs.rename(
+        './test_image/pdf/rptDeudaEntidad.pdf',
+        `./test_image/pdf/${ciCliente}-${codigoUsuario}-CIC-NIT-${fecha}.pdf`,
+        err => {
+          if (err) throw err
+          console.log('Nombre Editado Satisfactoriamente')
+          let obj = {
+            ciCliente: ciCliente,
+            user: codigoUsuario,
+            autorizacion: null
+          }
+          let listadoPorHacer = []
+          listadoPorHacer.push(obj)
+          let data = JSON.stringify(listadoPorHacer)
+          fs.writeFile('file/data.json', data, err => {
+            if (err) throw new Error('No se puedo grabar', err)
+          })
+
+          exec('node test_image/quicktest.js', (error, stdout, stderr) => {
+            if (error) {
+              console.error(`exec error: ${error}`)
+              res.send('Error al cambiar formato pdf a png CIC')
+              return
+            }
+            image2base64(
+              `${config.url}/test_image/image/${ciCliente}-${codigoUsuario}-CIC-${fecha}.png`
+            )
+              .then(responseBase64 => {
+                axios
+                  .post(
+                    config.urlImage,
+                    qs.stringify({
+                      img: responseBase64
+                    })
+                  )
+                  .then(function (response) {
+                    let dato = response.data.data.prediction
+                    let autorizacion = finderCIC(dato).autorizacion
+                    let obj = finderCIC(dato)
+                    console.log('Autorización:', autorizacion, obj)
+                    let imageNames = `${ciCliente}-${codigoUsuario}`
+                    let imageNameCICNIT = `${imageNames}-CIC-NIT-${fecha}`
+                    let dirCIC =
+                      finderCIC(dato).carteraDIR !== '' ? finderCIC(dato).carteraDIR : 'Sin deudas'
+                    let base64CICNIT = responseBase64
+
+                    res.send({
+                      imageNameCICNIT,
+                      base64CICNIT,
+                      dirCIC,
+                      autorizacion,
+                      fecha,
+                      tipoRobotizacion: 'Servicio ASFI-CIC-NIT',
+                      Resultado: 'Consulta CIC-NIT finalizada correctamente.',
+                      Correcto: true,
+                      Tipo: 'cic-nit'
                     })
                     return
                   })
@@ -232,34 +331,58 @@ app.post('/servidor/:tipo', cors(), (req, res) => {
     // Fecha
     var f = new Date()
     let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
-    if (req.params.tipo === 'cic') {
-      let imageNames = `${ciCliente}-${codigoUsuario}`
-      let imageNameCIC = `${imageNames}-CIC-${fecha}`
-      res.send({
-        imageNameCIC,
-        fecha,
-        base64CIC: cic[0].base64CIC,
-        dirCIC: cic[0].dirCIC,
-        autorizacion: cic[0].autorizacion,
-        tipoRobotizacion: cic[0].tipoRobotizacion,
-        Tipo: cic[0].NombreRobotizacion,
-        Resultado: cic[0].Resultado,
-        Correcto: true
-      })
-    } else {
-      let imageNames = `${ciCliente}-${codigoUsuario}`
-      let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
+    let imageNames
+    switch (req.params.tipo) {
+      case 'cic':
+        imageNames = `${ciCliente}-${codigoUsuario}`
+        let imageNameCIC = `${imageNames}-CIC-${fecha}`
+        res.send({
+          imageNameCIC,
+          fecha,
+          base64CIC: cic[0].base64CIC,
+          dirCIC: cic[0].dirCIC,
+          autorizacion: cic[0].autorizacion,
+          tipoRobotizacion: cic[0].tipoRobotizacion,
+          Tipo: cic[0].NombreRobotizacion,
+          Resultado: cic[0].Resultado,
+          Correcto: true
+        })
+        break
+      case 'cpop':
+        imageNames = `${ciCliente}-${codigoUsuario}`
+        let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
 
-      res.send({
-        imageNameCPOP,
-        fecha,
-        base64CPOP: cpop[0].base64CPOP,
-        cumplimientoCPOP: cpop[0].cumplimientoCPOP,
-        tipoRobotizacion: cpop[0].tipoRobotizacion,
-        Tipo: cpop[0].NombreRobotizacion,
-        Resultado: cpop[0].Resultado,
-        Correcto: cpop
-      })
+        res.send({
+          imageNameCPOP,
+          fecha,
+          base64CPOP: cpop[0].base64CPOP,
+          cumplimientoCPOP: cpop[0].cumplimientoCPOP,
+          tipoRobotizacion: cpop[0].tipoRobotizacion,
+          Tipo: cpop[0].NombreRobotizacion,
+          Resultado: cpop[0].Resultado,
+          Correcto: cpop
+        })
+        break
+      
+        case 'cic-nit':
+        imageNames = `${ciCliente}-${codigoUsuario}`
+        let imageNameCICNIT = `${imageNames}-CIC-NIT-${fecha}`
+
+        res.send({
+          imageNameCICNIT,
+          fecha,
+          base64CICNIT: cicNit[0].base64CICNIT,
+          dirCIC: cicNit[0].dirCIC,
+          autorizacion: cicNit[0].autorizacion,
+          tipoRobotizacion: cicNit[0].tipoRobotizacion,
+          Tipo: cicNit[0].NombreRobotizacion,
+          Resultado: cicNit[0].Resultado,
+          Correcto: true
+        })
+        break
+      
+        default:
+        break
     }
   }, 100)
 })
