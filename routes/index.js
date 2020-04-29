@@ -151,7 +151,7 @@ app.post('/cic-nit', cors(), (req, res) => {
       }
       fs.rename(
         './test_image/pdf/rptDeudaEntidad.pdf',
-        `./test_image/pdf/${ciCliente}-${codigoUsuario}-CIC-NIT-${fecha}.pdf`,
+        `./test_image/pdf/${ciCliente}-${codigoUsuario}-CIC-${fecha}.pdf`,
         err => {
           if (err) throw err
           console.log('Nombre Editado Satisfactoriamente')
