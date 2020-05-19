@@ -34,7 +34,7 @@ app.post('/cic', cors(), (req, res) => {
   let codigoUsuario = req.body.codigoUsuario
   let ruta = req.body.ruta
   let bytes = CryptoJS.AES.decrypt(password, 'PASSWORD')
-  // password = bytes.toString(CryptoJS.enc.Utf8)
+  password = bytes.toString(CryptoJS.enc.Utf8)
   console.log('Datos:', user, ciCliente, password)
 
   // Fecha
