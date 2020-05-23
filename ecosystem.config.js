@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'robotization',
-    script: 'app.js',
+    script: './routes/index.js',
     autorestart: true,
     watch: true,
     env: {
