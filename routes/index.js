@@ -13,7 +13,7 @@ const qs = require('qs')
 const config = require('../utilitarios/configData')
 const image2base64 = require('image-to-base64')
 const { finderCIC, finderCPOP } = require('../utilitarios/imageFinder')
-const { cic, cpop } = require('../utilitarios/dataServidor.json')
+const { cic, cpop, cicNit } = require('../utilitarios/dataServidor.json')
 let bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '100MB' }))
 app.use(bodyParser.urlencoded({ limit: '100MB', extended: true }))
@@ -262,34 +262,58 @@ app.post('/servidor/:tipo', cors(), (req, res) => {
     // Fecha
     var f = new Date()
     let fecha = `${f.getDate()}-${f.getMonth() + 1}-${f.getFullYear()}`
-    if (req.params.tipo === 'cic') {
-      let imageNames = `${ciCliente}-${codigoUsuario}`
-      let imageNameCIC = `${imageNames}-CIC-${fecha}`
-      res.send({
-        imageNameCIC,
-        fecha,
-        base64CIC: cic[0].base64CIC,
-        dirCIC: cic[0].dirCIC,
-        autorizacion: cic[0].autorizacion,
-        tipoRobotizacion: cic[0].tipoRobotizacion,
-        Tipo: cic[0].NombreRobotizacion,
-        Resultado: cic[0].Resultado,
-        Correcto: true
-      })
-    } else {
-      let imageNames = `${ciCliente}-${codigoUsuario}`
-      let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
+    let imageNames
+    switch (req.params.tipo) {
+      case 'cic':
+        imageNames = `${ciCliente}-${codigoUsuario}`
+        let imageNameCIC = `${imageNames}-CIC-${fecha}`
+        res.send({
+          imageNameCIC,
+          fecha,
+          base64CIC: cic[0].base64CIC,
+          dirCIC: cic[0].dirCIC,
+          autorizacion: cic[0].autorizacion,
+          tipoRobotizacion: cic[0].tipoRobotizacion,
+          Tipo: cic[0].NombreRobotizacion,
+          Resultado: cic[0].Resultado,
+          Correcto: true
+        })
+        break
+      case 'cpop':
+        imageNames = `${ciCliente}-${codigoUsuario}`
+        let imageNameCPOP = `${imageNames}-CPOP-${fecha}`
 
-      res.send({
-        imageNameCPOP,
-        fecha,
-        base64CPOP: cpop[0].base64CPOP,
-        cumplimientoCPOP: cpop[0].cumplimientoCPOP,
-        tipoRobotizacion: cpop[0].tipoRobotizacion,
-        Tipo: cpop[0].NombreRobotizacion,
-        Resultado: cpop[0].Resultado,
-        Correcto: cpop
-      })
+        res.send({
+          imageNameCPOP,
+          fecha,
+          base64CPOP: cpop[0].base64CPOP,
+          cumplimientoCPOP: cpop[0].cumplimientoCPOP,
+          tipoRobotizacion: cpop[0].tipoRobotizacion,
+          Tipo: cpop[0].NombreRobotizacion,
+          Resultado: cpop[0].Resultado,
+          Correcto: cpop
+        })
+        break
+      
+        case 'cic-nit':
+        imageNames = `${ciCliente}-${codigoUsuario}`
+        let imageNameCICNIT = `${imageNames}-CIC-NIT-${fecha}`
+
+        res.send({
+          imageNameCICNIT,
+          fecha,
+          base64CICNIT: cicNit[0].base64CICNIT,
+          dirCIC: cicNit[0].dirCIC,
+          autorizacion: cicNit[0].autorizacion,
+          tipoRobotizacion: cicNit[0].tipoRobotizacion,
+          Tipo: cicNit[0].NombreRobotizacion,
+          Resultado: cicNit[0].Resultado,
+          Correcto: true
+        })
+        break
+      
+        default:
+        break
     }
   }, 100)
 })
